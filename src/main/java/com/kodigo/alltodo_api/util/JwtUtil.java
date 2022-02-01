@@ -1,6 +1,5 @@
 package com.kodigo.alltodo_api.util;
 
-import com.kodigo.alltodo_api.service.UserAuthService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -17,7 +16,7 @@ public class JwtUtil  {
 
     private String SECRET_KEY = "aLlT0D0_f1N4L_pR0J3cT-3777";
 
-    public String extractUsername(String token) {
+    public String extractUserEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -50,7 +49,7 @@ public class JwtUtil  {
     }
 
     public Boolean validateToken (String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
+        final String username = extractUserEmail(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
