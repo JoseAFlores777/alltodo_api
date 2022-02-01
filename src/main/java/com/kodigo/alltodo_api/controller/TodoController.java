@@ -2,23 +2,18 @@ package com.kodigo.alltodo_api.controller;
 
 import com.kodigo.alltodo_api.exception.TodoCollectionException;
 import com.kodigo.alltodo_api.model.TodoDTO;
-import com.kodigo.alltodo_api.service.TodoService;
+import com.kodigo.alltodo_api.service.interfaces.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.kodigo.alltodo_api.repository.TodoRepository;
-
 import javax.validation.ConstraintViolationException;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 public class TodoController {
-
-    @Autowired
-    private TodoRepository todoRepo;
 
     @Autowired
     private TodoService todoService;

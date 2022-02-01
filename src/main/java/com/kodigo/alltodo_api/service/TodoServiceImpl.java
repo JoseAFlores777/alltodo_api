@@ -3,6 +3,7 @@ package com.kodigo.alltodo_api.service;
 import com.kodigo.alltodo_api.exception.TodoCollectionException;
 import com.kodigo.alltodo_api.model.TodoDTO;
 import com.kodigo.alltodo_api.repository.TodoRepository;
+import com.kodigo.alltodo_api.service.interfaces.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TodoServiceImpl implements TodoService{
+public class TodoServiceImpl implements TodoService {
 
     @Autowired
     private TodoRepository todoRepo;
