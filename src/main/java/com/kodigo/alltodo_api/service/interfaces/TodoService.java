@@ -1,5 +1,6 @@
 package com.kodigo.alltodo_api.service.interfaces;
 
+import com.kodigo.alltodo_api.exception.ProjectCollectionException;
 import com.kodigo.alltodo_api.exception.TodoCollectionException;
 import com.kodigo.alltodo_api.model.TodoDTO;
 

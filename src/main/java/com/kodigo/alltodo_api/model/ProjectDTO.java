@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
@@ -17,26 +16,24 @@ import java.util.Date;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "todos")
-public class TodoDTO {
+@Document(collection = "projects")
+public class ProjectDTO {
 
     @Id
     private String id;
 
-    @NotNull( message = "The title cannot be null")
-    @NotBlank( message = "The Todo must have at least one character in the title")
-    private String title;
+    @NotNull( message = "The name cannot be null")
+    @NotBlank( message = "The pROJECT must have at least one character in the name")
+    private String name;
 
     @NotNull( message = "The description cannot be null")
     @NotBlank( message = "The Todo must have at least one character in the description")
     private String description;
 
-    @NotNull( message = "The status of completed cannot be null")
-    private Boolean completed;
+    @DocumentReference
+    private UserDTO owner;
 
-    private String id_owner;
-
-    private  String id_project;
+    private Date finishAt;
 
     private Date createdAt;
 

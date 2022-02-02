@@ -3,7 +3,7 @@ package com.kodigo.alltodo_api.controller;
 
 import com.kodigo.alltodo_api.model.auth.AuthReq;
 import com.kodigo.alltodo_api.model.auth.AuthRes;
-import com.kodigo.alltodo_api.service.UserAuthService;
+import com.kodigo.alltodo_api.service.UserAuthServiceImpl;
 import com.kodigo.alltodo_api.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserAuthService userAuthService;
+    private UserAuthServiceImpl userAuthServiceImpl;
 
     @Autowired
     private JwtUtil jwtTokenUtil;
@@ -36,10 +36,10 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(authReq.getEmail(), authReq.getPassword())
             );
         } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect Email or Password ", e);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
 
-        final UserDetails userDetails = userAuthService.loadUserByUsername(authReq.getEmail());
+        final UserDetails userDetails = userAuthServiceImpl.loadUserByUsername(authReq.getEmail());
 
         final String jwt = jwtTokenUtil.generateToken(userDetails);
 

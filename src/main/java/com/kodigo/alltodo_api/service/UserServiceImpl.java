@@ -5,6 +5,7 @@ import com.kodigo.alltodo_api.model.UserDTO;
 import com.kodigo.alltodo_api.repository.UserRepository;
 import com.kodigo.alltodo_api.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolationException;
@@ -17,12 +18,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepo;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public void createUser(UserDTO user) throws ConstraintViolationException, UserCollectionException {
        Optional<UserDTO> userOptional = userRepo.findByEmail( user.getEmail() );
        if (userOptional.isPresent()){
            throw  new UserCollectionException( UserCollectionException.UserAlreadyExist() );
        }else{
+           user.setPassword(this.passwordEncoder.encode(user.getPassword()));
            user.setCreatedAt( new Date( System.currentTimeMillis() ));
            userRepo.save( user );
        }
