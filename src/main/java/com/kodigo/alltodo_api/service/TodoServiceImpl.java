@@ -2,8 +2,11 @@ package com.kodigo.alltodo_api.service;
 
 import com.kodigo.alltodo_api.exception.TodoCollectionException;
 import com.kodigo.alltodo_api.model.TodoDTO;
+import com.kodigo.alltodo_api.model.UserDTO;
 import com.kodigo.alltodo_api.repository.TodoRepository;
+import com.kodigo.alltodo_api.repository.UserRepository;
 import com.kodigo.alltodo_api.service.interfaces.TodoService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +21,19 @@ public class TodoServiceImpl implements TodoService {
 
     @Autowired
     private TodoRepository todoRepo;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
-    public void createTodo(TodoDTO todo) throws ConstraintViolationException,TodoCollectionException {
-       Optional<TodoDTO> todoOptional = todoRepo.findByTitle( todo.getTitle() );
+    public void createTodo(TodoDTO todo, String idClient) throws ConstraintViolationException,TodoCollectionException {
+       Optional<TodoDTO> todoOptional = todoRepo.findDuplicated( todo.getTitle(), idClient, todo.getProject().getId() );
        if (todoOptional.isPresent()){
            throw  new TodoCollectionException( TodoCollectionException.TodoAlreadyExist() );
        }else{
+           Optional<UserDTO> optionalUserDTO = userRepository.findUserById(idClient);
 
+           todo.setCreatedBy(optionalUserDTO.get());
+           todo.setAsignatedTo(optionalUserDTO.get());
            todo.setCreatedAt( new Date( System.currentTimeMillis() ));
            todoRepo.save( todo );
        }
@@ -64,7 +72,9 @@ public class TodoServiceImpl implements TodoService {
             todoToUpdate.setTitle(todo.getTitle());
             todoToUpdate.setDescription(todo.getDescription());
             todoToUpdate.setCompleted(todo.getCompleted());
-            todoToUpdate.setUpdateAt( new Date( System.currentTimeMillis() ) );
+            todoToUpdate.setAsignatedTo(todo.getAsignatedTo());
+            //todo
+            todoToUpdate.setUpdatedAt( new Date( System.currentTimeMillis() ) );
             todoRepo.save( todoToUpdate );
         }else{
             throw new TodoCollectionException( TodoCollectionException.NotFoundException( id ) );
@@ -81,4 +91,11 @@ public class TodoServiceImpl implements TodoService {
         }
 
     }
+
+    @Override
+    public void deleteAllByProject(String idProject) throws TodoCollectionException {
+        //todoRepo.  d (new ObjectId(idProject));
+    }
+
+
 }

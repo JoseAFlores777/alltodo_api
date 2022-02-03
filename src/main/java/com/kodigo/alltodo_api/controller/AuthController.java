@@ -29,19 +29,23 @@ public class AuthController {
     private JwtUtil jwtTokenUtil;
 
     @PostMapping("/auth")
-    public ResponseEntity<?> login(@RequestBody AuthReq authReq) throws Exception {
+    public ResponseEntity<?> login(@RequestBody AuthReq authReq)  {
+
+        final UserDetails userDetails;
+        final String jwt;
 
         try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authReq.getEmail(), authReq.getPassword())
-            );
-        } catch (BadCredentialsException e) {
+            authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(authReq.getEmail(), authReq.getPassword()) );
+
+           userDetails = userAuthServiceImpl.loadUserByUsername(authReq.getEmail());
+
+            jwt = jwtTokenUtil.generateToken(userDetails);
+
+        } catch (BadCredentialsException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
-
-        final UserDetails userDetails = userAuthServiceImpl.loadUserByUsername(authReq.getEmail());
-
-        final String jwt = jwtTokenUtil.generateToken(userDetails);
 
         return new ResponseEntity<AuthRes>(new AuthRes(jwt), HttpStatus.OK);
 

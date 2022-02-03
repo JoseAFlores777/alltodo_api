@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface TodoService {
 
-     void createTodo(TodoDTO todo)  throws ConstraintViolationException,TodoCollectionException;
+     void createTodo(TodoDTO todo, String idClient)  throws ConstraintViolationException,TodoCollectionException;
 
      List<TodoDTO> getAllTodos();
 
@@ -18,4 +18,6 @@ public interface TodoService {
      void updateTodo(String id, TodoDTO todo) throws TodoCollectionException;
 
      void deleteTodo(String id) throws TodoCollectionException;
+
+     void deleteAllByProject(String idProject) throws TodoCollectionException;
 }

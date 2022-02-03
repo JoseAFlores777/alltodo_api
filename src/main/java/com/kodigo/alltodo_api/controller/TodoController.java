@@ -25,9 +25,9 @@ public class TodoController {
     }
 
     @PostMapping("/todos")
-    public ResponseEntity<?> create(@RequestBody TodoDTO todo) {
+    public ResponseEntity<?> create(@RequestBody TodoDTO todo, @RequestAttribute("uid")String id) {
         try {
-            todoService.createTodo(todo);
+            todoService.createTodo(todo, id);
             return new ResponseEntity<TodoDTO>(todo, HttpStatus.OK);
 
         } catch (ConstraintViolationException e) {

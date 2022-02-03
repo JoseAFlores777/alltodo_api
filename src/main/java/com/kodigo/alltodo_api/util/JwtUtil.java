@@ -1,5 +1,6 @@
 package com.kodigo.alltodo_api.util;
 
+import com.kodigo.alltodo_api.model.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service
@@ -22,6 +24,11 @@ public class JwtUtil  {
 
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
+    }
+
+    public String extractUserId (String token){
+        final Claims claims = extractAllClaims(token);
+        return claims.get("uid").toString();
     }
 
     public <T> T extractClaim( String token, Function<Claims, T> claimsResolver) {
@@ -39,6 +46,7 @@ public class JwtUtil  {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("uid",((CustomUserDetails) userDetails).getUser().getId());
         return createToken(claims, userDetails.getUsername());
     }
 

@@ -2,6 +2,7 @@ package com.kodigo.alltodo_api.service.interfaces;
 
 import com.kodigo.alltodo_api.exception.ProjectCollectionException;
 import com.kodigo.alltodo_api.exception.TodoCollectionException;
+import com.kodigo.alltodo_api.exception.UserCollectionException;
 import com.kodigo.alltodo_api.model.ProjectDTO;
 import com.kodigo.alltodo_api.model.TodoDTO;
 
@@ -10,13 +11,13 @@ import java.util.List;
 
 public interface ProjectService {
 
-     void createProject(ProjectDTO project)  throws ConstraintViolationException, ProjectCollectionException;
+     void createProject(ProjectDTO project, String idClient) throws ConstraintViolationException, ProjectCollectionException, UserCollectionException;
 
-     List<ProjectDTO> getAllProjects();
+     List<ProjectDTO> getAllProjects(String idClient);
 
-     ProjectDTO getProjectById(String id) throws ProjectCollectionException;
+     ProjectDTO getProjectById(String id, String idClient) throws ProjectCollectionException;
 
-     void updateProject(String id, ProjectDTO project) throws ProjectCollectionException;
+     void updateProject(String id, ProjectDTO project, String idClient) throws ProjectCollectionException, UserCollectionException;
 
-     void deleteProject(String id) throws ProjectCollectionException;
+     void deleteProject(String id, String idClient) throws ProjectCollectionException, TodoCollectionException;
 }

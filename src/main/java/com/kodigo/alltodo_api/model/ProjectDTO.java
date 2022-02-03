@@ -23,7 +23,7 @@ public class ProjectDTO {
     private String id;
 
     @NotNull( message = "The name cannot be null")
-    @NotBlank( message = "The pROJECT must have at least one character in the name")
+    @NotBlank( message = "The Project must have at least one character in the name")
     private String name;
 
     @NotNull( message = "The description cannot be null")
@@ -31,13 +31,16 @@ public class ProjectDTO {
     private String description;
 
     @DocumentReference
-    private UserDTO owner;
+    private UserDTO createdBy;
 
-    private Date finishAt;
+    @DocumentReference
+    private UserDTO updatedBy;
 
     private Date createdAt;
 
-    private Date updateAt;
+    private Date updatedAt;
 
+    @NotNull( message = "The status of User cannot be null")
+    private boolean isAvailable = true;
 
 }

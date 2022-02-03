@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -34,13 +35,23 @@ public class TodoDTO {
     @NotNull( message = "The status of completed cannot be null")
     private Boolean completed;
 
-    private String id_owner;
 
-    private  String id_project;
+    @DocumentReference
+    private UserDTO asignatedTo;
+
+    @DocumentReference
+    private  ProjectDTO project;
+
+    @DocumentReference
+    private UserDTO createdBy;
+
+    @DocumentReference
+    private UserDTO updatedBy;
 
     private Date createdAt;
 
-    private Date updateAt;
+    private Date updatedAt;
 
-
+    @NotNull( message = "The status of User cannot be null")
+    private boolean isAvailable = true;
 }

@@ -1,6 +1,7 @@
 package com.kodigo.alltodo_api.model;
 
 import com.kodigo.alltodo_api.model.enums.Gender;
+import com.kodigo.alltodo_api.validators.TypeGenderConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,9 +35,9 @@ public class UserDTO {
     @NotBlank( message = "The lastName must have at least one character")
     private String lastName;
 
-    @Field(targetType = FieldType.STRING)
+    @TypeGenderConstraint(message = "The Gender must be Female or Male")
     @NotNull( message = "The gender cannot be null")
-    private Gender gender;
+    private String gender;
 
     @NotNull( message = "The email cannot be null")
     @Email(message = "invalid email format")
@@ -54,7 +55,7 @@ public class UserDTO {
 
     private Date createdAt;
 
-    private Date updateAt;
+    private Date updatedAt;
 
     @NotNull( message = "The status of User cannot be null")
     private boolean isAvailable = true;

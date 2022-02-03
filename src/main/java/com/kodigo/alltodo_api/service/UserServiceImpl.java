@@ -24,6 +24,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void createUser(UserDTO user) throws ConstraintViolationException, UserCollectionException {
        Optional<UserDTO> userOptional = userRepo.findByEmail( user.getEmail() );
+
        if (userOptional.isPresent()){
            throw  new UserCollectionException( UserCollectionException.UserAlreadyExist() );
        }else{
@@ -36,7 +37,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserById(String id) throws UserCollectionException {
-        Optional<UserDTO> optionalUser = userRepo.findById( id );
+        Optional<UserDTO> optionalUser = userRepo.findUserById( id );
+
         if (!optionalUser.isPresent()) {
             throw new UserCollectionException( UserCollectionException.NotFoundException( id ) );
         }else {
@@ -47,8 +49,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(String id, UserDTO user) throws UserCollectionException {
-        Optional<UserDTO> userWithId = userRepo.findById(id);
+        Optional<UserDTO> userWithId = userRepo.findUserById(id);
         Optional<UserDTO> userWithSameEmail = userRepo.findByEmail( user.getEmail() );
+
         if (userWithId.isPresent()) {
             if (userWithSameEmail.isPresent() && !userWithSameEmail.get().getId().equals( id ) ) {
                 throw new UserCollectionException( UserCollectionException.UserAlreadyExist() );
@@ -57,8 +60,9 @@ public class UserServiceImpl implements UserService {
             userToUpdate.setFirstName(user.getFirstName());
             userToUpdate.setLastName(user.getLastName());
             userToUpdate.setGender(user.getGender());
+            userToUpdate.setAvatarImg(user.getAvatarImg());
             userToUpdate.setEmail(user.getEmail());
-            userToUpdate.setUpdateAt( new Date( System.currentTimeMillis() ) );
+            userToUpdate.setUpdatedAt( new Date( System.currentTimeMillis() ) );
             userRepo.save( userToUpdate );
         }else{
             throw new UserCollectionException( UserCollectionException.NotFoundException( id ) );
@@ -67,7 +71,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(String id) throws UserCollectionException {
-        Optional<UserDTO> optionalUser = userRepo.findById(id);
+        Optional<UserDTO> optionalUser = userRepo.findUserById(id);
         if (!optionalUser.isPresent()) {
             throw new UserCollectionException( UserCollectionException.NotFoundException( id ) );
         }else {
@@ -76,5 +80,15 @@ public class UserServiceImpl implements UserService {
             userRepo.save(userToDelete);
         }
 
+    }
+
+    @Override
+    public boolean ifUserExists(String id) {
+        Optional<UserDTO> optionalUser = userRepo.findUserById(id);
+        if (!optionalUser.isPresent()) {
+            return false;
+        }else {
+           return true;
+        }
     }
 }

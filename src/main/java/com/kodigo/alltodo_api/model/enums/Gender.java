@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum Gender {
-        M("Masculine"),
+        M("Male"),
         F("Female");
 
         private final String gender;
