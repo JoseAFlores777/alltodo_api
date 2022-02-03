@@ -13,6 +13,7 @@ import com.kodigo.alltodo_api.service.interfaces.TodoService;
 import com.kodigo.alltodo_api.service.interfaces.UserService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolationException;
@@ -98,8 +99,11 @@ public class ProjectServiceImpl implements ProjectService {
             ProjectDTO project_ToDelete = optionalProject.get();
             project_ToDelete.setAvailable(false);
             //todo deletemany todos by this project
+
             projectRepo.save(project_ToDelete);
         }
 
     }
+
+
 }

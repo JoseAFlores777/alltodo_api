@@ -22,4 +22,6 @@ public interface ProjectRepository extends MongoRepository <ProjectDTO, String> 
     @Query("{'id': ?0, 'createdBy': ?1, isAvailable: true }")
     Optional<ProjectDTO> findUserProyectsById(String id, ObjectId createdBy);
 
+
+
 }
