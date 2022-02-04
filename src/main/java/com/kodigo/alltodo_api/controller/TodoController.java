@@ -3,8 +3,12 @@ package com.kodigo.alltodo_api.controller;
 import com.kodigo.alltodo_api.exception.ProjectCollectionException;
 import com.kodigo.alltodo_api.exception.TodoCollectionException;
 import com.kodigo.alltodo_api.exception.UserCollectionException;
+import com.kodigo.alltodo_api.model.ProjectDTO;
 import com.kodigo.alltodo_api.model.TodoDTO;
+import com.kodigo.alltodo_api.model.UserDTO;
+import com.kodigo.alltodo_api.service.interfaces.ProjectService;
 import com.kodigo.alltodo_api.service.interfaces.TodoService;
+import com.kodigo.alltodo_api.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +23,11 @@ public class TodoController {
 
     @Autowired
     private TodoService todoService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ProjectService projectService;
+
 
     @GetMapping("/todos")
     public ResponseEntity<?> getAll(@RequestAttribute("uid") String id) throws UserCollectionException {
@@ -29,7 +38,8 @@ public class TodoController {
     @PostMapping("/todos")
     public ResponseEntity<?> create(@RequestBody TodoDTO todo, @RequestAttribute("uid")String id) {
         try {
-            todoService.createTodo(todo, id);
+            UserDTO optionalUserDTO = userService.getUserById(id);
+            todoService.createTodo(todo, optionalUserDTO);
             return new ResponseEntity<TodoDTO>(todo, HttpStatus.OK);
 
         } catch (ConstraintViolationException e) {
@@ -53,7 +63,9 @@ public class TodoController {
     @PutMapping("/todos/{id}")
     public ResponseEntity<?> updateById( @PathVariable("id") String id, @RequestBody TodoDTO todo, @PathVariable("id") String uid  ){
         try {
-            todoService.updateTodo( id, todo, uid );
+            UserDTO optionalUserDTO = userService.getUserById(uid);
+            projectService.getProjectById(todo.getProject().getId(), uid);
+            todoService.updateTodo( id, todo, optionalUserDTO );
             return new ResponseEntity<>("Update Todo with id "+id, HttpStatus.OK);
         } catch (ConstraintViolationException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);

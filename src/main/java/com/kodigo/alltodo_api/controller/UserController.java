@@ -4,6 +4,7 @@ import com.kodigo.alltodo_api.exception.ProjectCollectionException;
 import com.kodigo.alltodo_api.exception.UserCollectionException;
 import com.kodigo.alltodo_api.model.UserDTO;
 import com.kodigo.alltodo_api.repository.UserRepository;
+import com.kodigo.alltodo_api.service.interfaces.ProjectService;
 import com.kodigo.alltodo_api.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ProjectService projectService;
 
 
     @PostMapping("/users")
@@ -60,6 +64,7 @@ public class UserController {
     public ResponseEntity<?> deleteById( @PathVariable("id") String id ){
         try {
             userService.deleteUser(id);
+            projectService.deleteAllByUser(id);
             return new ResponseEntity<>("Successfully deleted with id "+id, HttpStatus.OK );
         }catch (UserCollectionException | ProjectCollectionException e ){
             return new ResponseEntity<>( e.getMessage(), HttpStatus.NOT_FOUND );

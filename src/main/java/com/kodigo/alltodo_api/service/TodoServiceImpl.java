@@ -30,21 +30,21 @@ public class TodoServiceImpl implements TodoService {
 
     @Autowired
     private TodoRepository todoRepo;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private ProjectService projectService;
+
     @Autowired
     MongoTemplate mongoTemplate;
 
     @Override
-    public void createTodo(TodoDTO todo, String idClient) throws ConstraintViolationException, TodoCollectionException, UserCollectionException {
-        UserDTO optionalUserDTO = userService.getUserById(idClient);
-       Optional<TodoDTO> todoOptional = todoRepo.findDuplicated( todo.getTitle(), new ObjectId(idClient), new ObjectId(todo.getProject().getId()) );
+    public void createTodo(TodoDTO todo, UserDTO Client) throws ConstraintViolationException, TodoCollectionException, UserCollectionException {
+
+        ObjectId projectId = todo.getProject() == null ? null : new ObjectId(todo.getProject().getId());
+
+       Optional<TodoDTO> todoOptional = todoRepo.findDuplicated( todo.getTitle(), new ObjectId(Client.getId()), projectId );
+
        if (todoOptional.isPresent()){
            throw  new TodoCollectionException( TodoCollectionException.TodoAlreadyExist() );
        }else{
-           todo.setCreatedBy(optionalUserDTO);
+           todo.setCreatedBy(Client);
            todo.setCreatedAt( new Date( System.currentTimeMillis() ));
            todoRepo.save( todo );
        }
@@ -72,11 +72,10 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public void updateTodo(String id, TodoDTO todo, String idClient) throws TodoCollectionException, UserCollectionException, ProjectCollectionException {
-        UserDTO optionalUserDTO = userService.getUserById(idClient);
-        ProjectDTO optionalProjectDTO = projectService.getProjectById(todo.getProject().getId(), idClient);
+    public void updateTodo(String id, TodoDTO todo, UserDTO Client) throws TodoCollectionException, UserCollectionException, ProjectCollectionException {
+
         Optional<TodoDTO> todoWithId = todoRepo.findById(id);
-        Optional<TodoDTO> todoWithSameTitle = todoRepo.findDuplicated( todo.getTitle(), new ObjectId(idClient), new ObjectId(todo.getProject().getId()) );
+        Optional<TodoDTO> todoWithSameTitle = todoRepo.findDuplicated( todo.getTitle(), new ObjectId(Client.getId()), new ObjectId(todo.getProject().getId()) );
         if (todoWithId.isPresent()) {
             if (todoWithSameTitle.isPresent() && !todoWithSameTitle.get().getId().equals( id ) ) {
                 throw new TodoCollectionException( TodoCollectionException.TodoAlreadyExist() );
@@ -85,8 +84,8 @@ public class TodoServiceImpl implements TodoService {
             todoToUpdate.setTitle(todo.getTitle());
             todoToUpdate.setDescription(todo.getDescription());
             todoToUpdate.setCompleted(todo.getCompleted());
-            todoToUpdate.setProject(optionalProjectDTO);
-            todoToUpdate.setUpdatedBy(optionalUserDTO);
+            todoToUpdate.setProject(todo.getProject());
+            todoToUpdate.setUpdatedBy(Client);
             todoToUpdate.setUpdatedAt( new Date( System.currentTimeMillis() ) );
             todoRepo.save( todoToUpdate );
         }else{

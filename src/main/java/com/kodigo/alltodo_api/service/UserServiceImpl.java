@@ -20,8 +20,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepo;
 
-    @Autowired
-    private ProjectService projectService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -82,7 +80,6 @@ public class UserServiceImpl implements UserService {
         }else {
             UserDTO userToDelete = optionalUser.get();
             userToDelete.setAvailable(false);
-            projectService.deleteAllByUser(id);
             userRepo.save(userToDelete);
         }
 

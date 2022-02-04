@@ -32,24 +32,19 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private ProjectRepository projectRepo;
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private TodoService todoService;
 
     @Autowired
     MongoTemplate mongoTemplate;
 
     @Override
-    public void createProject(ProjectDTO project, String idClient) throws ConstraintViolationException, ProjectCollectionException, UserCollectionException {
-        UserDTO optionalUserDTO = userService.getUserById(idClient);
-        Optional<ProjectDTO> projectOptional = projectRepo.findByName( project.getName(), new ObjectId(idClient) );
+    public void createProject(ProjectDTO project, UserDTO Client) throws ConstraintViolationException, ProjectCollectionException, UserCollectionException {
+
+        Optional<ProjectDTO> projectOptional = projectRepo.findByName( project.getName(), new ObjectId(Client.getId()) );
 
        if (projectOptional.isPresent()){
            throw  new ProjectCollectionException( ProjectCollectionException.TodoAlreadyExist() );
        }else{
-           project.setCreatedBy(optionalUserDTO);
+           project.setCreatedBy(Client);
            project.setCreatedAt( new Date( System.currentTimeMillis() ));
            projectRepo.save( project );
        }
@@ -77,10 +72,10 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void updateProject(String id, ProjectDTO project, String idClient) throws ProjectCollectionException, UserCollectionException {
-        UserDTO optionalUserDTO = userService.getUserById(idClient);
+    public void updateProject(String id, ProjectDTO project, UserDTO Client) throws ProjectCollectionException, UserCollectionException {
+
         Optional<ProjectDTO> projectWithId = projectRepo.findById(id);
-        Optional<ProjectDTO> projectWithSameName = projectRepo.findByName( project.getName(), new ObjectId(idClient) );
+        Optional<ProjectDTO> projectWithSameName = projectRepo.findByName( project.getName(), new ObjectId(Client.getId()) );
 
         if (projectWithId.isPresent()) {
             if (projectWithSameName.isPresent() && !projectWithSameName.get().getId().equals( id ) ) {
@@ -89,7 +84,7 @@ public class ProjectServiceImpl implements ProjectService {
             ProjectDTO projectToUpdate = projectWithId.get();
             projectToUpdate.setName(project.getName());
             projectToUpdate.setDescription(project.getDescription());
-            projectToUpdate.setUpdatedBy(optionalUserDTO);
+            projectToUpdate.setUpdatedBy(Client);
             projectToUpdate.setUpdatedAt( new Date( System.currentTimeMillis() ) );
             projectRepo.save( projectToUpdate );
         }else{
@@ -105,7 +100,7 @@ public class ProjectServiceImpl implements ProjectService {
         }else {
             ProjectDTO project_ToDelete = optionalProject.get();
             project_ToDelete.setAvailable(false);
-            todoService.deleteAllByProject(id);
+
             projectRepo.save(project_ToDelete);
         }
 
