@@ -37,9 +37,6 @@ public class TodoDTO {
 
 
     @DocumentReference
-    private UserDTO asignatedTo;
-
-    @DocumentReference
     private  ProjectDTO project;
 
     @DocumentReference

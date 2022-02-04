@@ -20,4 +20,6 @@ public interface ProjectService {
      void updateProject(String id, ProjectDTO project, String idClient) throws ProjectCollectionException, UserCollectionException;
 
      void deleteProject(String id, String idClient) throws ProjectCollectionException, TodoCollectionException;
+
+     void deleteAllByUser(String idUser) throws ProjectCollectionException;
 }

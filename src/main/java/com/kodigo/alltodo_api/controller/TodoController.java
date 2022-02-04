@@ -1,6 +1,8 @@
 package com.kodigo.alltodo_api.controller;
 
+import com.kodigo.alltodo_api.exception.ProjectCollectionException;
 import com.kodigo.alltodo_api.exception.TodoCollectionException;
+import com.kodigo.alltodo_api.exception.UserCollectionException;
 import com.kodigo.alltodo_api.model.TodoDTO;
 import com.kodigo.alltodo_api.service.interfaces.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,8 @@ public class TodoController {
     private TodoService todoService;
 
     @GetMapping("/todos")
-    public ResponseEntity<?> getAll(){
-        List<TodoDTO> todos = todoService.getAllTodos();
+    public ResponseEntity<?> getAll(@RequestAttribute("uid") String id) throws UserCollectionException {
+        List<TodoDTO> todos = todoService.getAllTodos(id);
         return new ResponseEntity<>( todos, todos.size() > 0 ? HttpStatus.OK : HttpStatus.NOT_FOUND );
     }
 
@@ -34,34 +36,36 @@ public class TodoController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
         } catch (TodoCollectionException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        } catch (UserCollectionException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/todos/{id}")
-    public ResponseEntity<?> getById( @PathVariable("id") String id ){
+    public ResponseEntity<?> getById( @PathVariable("id") String id, @PathVariable("id") String uid ){
         try {
-            return new ResponseEntity<>(todoService.getTodoById(id), HttpStatus.OK);
+            return new ResponseEntity<>(todoService.getTodoById(id, uid), HttpStatus.OK);
         } catch (TodoCollectionException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping("/todos/{id}")
-    public ResponseEntity<?> updateById( @PathVariable("id") String id, @RequestBody TodoDTO todo ){
+    public ResponseEntity<?> updateById( @PathVariable("id") String id, @RequestBody TodoDTO todo, @PathVariable("id") String uid  ){
         try {
-            todoService.updateTodo( id, todo );
+            todoService.updateTodo( id, todo, uid );
             return new ResponseEntity<>("Update Todo with id "+id, HttpStatus.OK);
         } catch (ConstraintViolationException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
-        } catch (TodoCollectionException e) {
+        } catch (TodoCollectionException | UserCollectionException | ProjectCollectionException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping("/todos/{id}")
-    public ResponseEntity<?> deleteById( @PathVariable("id") String id ){
+    public ResponseEntity<?> deleteById( @PathVariable("id") String id, @PathVariable("id") String uid ){
         try {
-            todoService.deleteTodo(id);
+            todoService.deleteTodo(id, uid);
             return new ResponseEntity<>("Successfully deleted with id "+id, HttpStatus.OK );
         }catch ( TodoCollectionException e ){
             return new ResponseEntity<>( e.getMessage(), HttpStatus.NOT_FOUND );

@@ -7,13 +7,17 @@ import com.kodigo.alltodo_api.model.ProjectDTO;
 import com.kodigo.alltodo_api.model.TodoDTO;
 import com.kodigo.alltodo_api.model.UserDTO;
 import com.kodigo.alltodo_api.repository.ProjectRepository;
-import com.kodigo.alltodo_api.repository.UserRepository;
 import com.kodigo.alltodo_api.service.interfaces.ProjectService;
 import com.kodigo.alltodo_api.service.interfaces.TodoService;
 import com.kodigo.alltodo_api.service.interfaces.UserService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.mongodb.core.MongoTemplate;
+
+
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolationException;
@@ -33,6 +37,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private TodoService todoService;
+
+    @Autowired
+    MongoTemplate mongoTemplate;
 
     @Override
     public void createProject(ProjectDTO project, String idClient) throws ConstraintViolationException, ProjectCollectionException, UserCollectionException {
@@ -98,11 +105,17 @@ public class ProjectServiceImpl implements ProjectService {
         }else {
             ProjectDTO project_ToDelete = optionalProject.get();
             project_ToDelete.setAvailable(false);
-            //todo deletemany todos by this project
-
+            todoService.deleteAllByProject(id);
             projectRepo.save(project_ToDelete);
         }
 
+    }
+
+    @Override
+    public void deleteAllByUser(String idUser) throws ProjectCollectionException {
+        Query query = new Query(Criteria.where("createdBy").is(new ObjectId(idUser)));
+        Update update = new Update().set("isAvailable",false);
+        mongoTemplate.updateMulti(query,update, ProjectDTO.class);
     }
 
 

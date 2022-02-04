@@ -1,8 +1,10 @@
 package com.kodigo.alltodo_api.service;
 
+import com.kodigo.alltodo_api.exception.ProjectCollectionException;
 import com.kodigo.alltodo_api.exception.UserCollectionException;
 import com.kodigo.alltodo_api.model.UserDTO;
 import com.kodigo.alltodo_api.repository.UserRepository;
+import com.kodigo.alltodo_api.service.interfaces.ProjectService;
 import com.kodigo.alltodo_api.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +19,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepo;
+
+    @Autowired
+    private ProjectService projectService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -70,13 +75,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(String id) throws UserCollectionException {
+    public void deleteUser(String id) throws UserCollectionException, ProjectCollectionException {
         Optional<UserDTO> optionalUser = userRepo.findUserById(id);
         if (!optionalUser.isPresent()) {
             throw new UserCollectionException( UserCollectionException.NotFoundException( id ) );
         }else {
             UserDTO userToDelete = optionalUser.get();
             userToDelete.setAvailable(false);
+            projectService.deleteAllByUser(id);
             userRepo.save(userToDelete);
         }
 

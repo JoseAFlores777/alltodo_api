@@ -1,5 +1,6 @@
 package com.kodigo.alltodo_api.controller;
 
+import com.kodigo.alltodo_api.exception.ProjectCollectionException;
 import com.kodigo.alltodo_api.exception.UserCollectionException;
 import com.kodigo.alltodo_api.model.UserDTO;
 import com.kodigo.alltodo_api.repository.UserRepository;
@@ -60,7 +61,7 @@ public class UserController {
         try {
             userService.deleteUser(id);
             return new ResponseEntity<>("Successfully deleted with id "+id, HttpStatus.OK );
-        }catch ( UserCollectionException e ){
+        }catch (UserCollectionException | ProjectCollectionException e ){
             return new ResponseEntity<>( e.getMessage(), HttpStatus.NOT_FOUND );
         }
     }
