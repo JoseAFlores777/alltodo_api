@@ -3,14 +3,10 @@ package com.kodigo.alltodo_api.service;
 import com.kodigo.alltodo_api.exception.ProjectCollectionException;
 import com.kodigo.alltodo_api.exception.TodoCollectionException;
 import com.kodigo.alltodo_api.exception.UserCollectionException;
-import com.kodigo.alltodo_api.model.ProjectDTO;
 import com.kodigo.alltodo_api.model.TodoDTO;
 import com.kodigo.alltodo_api.model.UserDTO;
 import com.kodigo.alltodo_api.repository.TodoRepository;
-import com.kodigo.alltodo_api.repository.UserRepository;
-import com.kodigo.alltodo_api.service.interfaces.ProjectService;
 import com.kodigo.alltodo_api.service.interfaces.TodoService;
-import com.kodigo.alltodo_api.service.interfaces.UserService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -111,6 +107,8 @@ public class TodoServiceImpl implements TodoService {
         Query query = new Query(Criteria.where("project").is(new ObjectId(idProject)));
         Update update = new Update().set("isAvailable",false);
         mongoTemplate.updateMulti(query,update,TodoDTO.class);
+
+
     }
 
 
