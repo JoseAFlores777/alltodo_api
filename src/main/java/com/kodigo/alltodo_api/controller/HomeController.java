@@ -2,13 +2,14 @@ package com.kodigo.alltodo_api.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class HomeController {
 
-    @GetMapping("/")
-    public String showHome(){
-        return "home";
+    @RequestMapping("/")
+    public String login() {
+        return "home.html";
     }
 
 }
