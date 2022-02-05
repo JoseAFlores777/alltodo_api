@@ -1,7 +1,6 @@
-package com.kodigo.alltodo_api.repository;
+package com.kodigo.alltodo_api.service.DB.implementations.mongoDB.repository;
 
-import com.kodigo.alltodo_api.model.ProjectDTO;
-import com.kodigo.alltodo_api.model.TodoDTO;
+import com.kodigo.alltodo_api.model.dto.TodoDTO;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -11,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface TodoRepository extends MongoRepository <TodoDTO, String> {
+public interface TodoRepository_MongoDB extends MongoRepository <TodoDTO, String> {
 
     @Query("{'title': ?0}")
     Optional<TodoDTO> findByTitle(String title );

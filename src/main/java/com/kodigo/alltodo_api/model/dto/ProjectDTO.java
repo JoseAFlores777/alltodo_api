@@ -1,4 +1,4 @@
-package com.kodigo.alltodo_api.model;
+package com.kodigo.alltodo_api.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

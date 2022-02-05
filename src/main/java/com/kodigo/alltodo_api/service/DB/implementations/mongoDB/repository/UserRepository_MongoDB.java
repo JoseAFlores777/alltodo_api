@@ -1,7 +1,6 @@
-package com.kodigo.alltodo_api.repository;
+package com.kodigo.alltodo_api.service.DB.implementations.mongoDB.repository;
 
-import com.kodigo.alltodo_api.model.TodoDTO;
-import com.kodigo.alltodo_api.model.UserDTO;
+import com.kodigo.alltodo_api.model.dto.UserDTO;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends MongoRepository <UserDTO, String> {
+public interface UserRepository_MongoDB extends MongoRepository <UserDTO, String> {
 
     @Query("{'email': ?0, isAvailable: true}")
     Optional<UserDTO> findByEmail(String email );

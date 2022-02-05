@@ -1,11 +1,11 @@
-package com.kodigo.alltodo_api.service;
+package com.kodigo.alltodo_api.service.DB.implementations.mongoDB.DBservice;
 
 import com.kodigo.alltodo_api.exception.ProjectCollectionException;
 import com.kodigo.alltodo_api.exception.UserCollectionException;
-import com.kodigo.alltodo_api.model.UserDTO;
-import com.kodigo.alltodo_api.repository.UserRepository;
-import com.kodigo.alltodo_api.service.interfaces.ProjectService;
-import com.kodigo.alltodo_api.service.interfaces.UserService;
+import com.kodigo.alltodo_api.model.dto.UserDTO;
+import com.kodigo.alltodo_api.service.DB.implementations.mongoDB.repository.UserRepository_MongoDB;
+
+import com.kodigo.alltodo_api.service.DB.interfaces.DBservices.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserRepository userRepo;
+    private UserRepository_MongoDB userRepo;
 
 
     @Autowired

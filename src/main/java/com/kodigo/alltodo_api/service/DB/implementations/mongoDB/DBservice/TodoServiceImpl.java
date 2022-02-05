@@ -1,12 +1,12 @@
-package com.kodigo.alltodo_api.service;
+package com.kodigo.alltodo_api.service.DB.implementations.mongoDB.DBservice;
 
 import com.kodigo.alltodo_api.exception.ProjectCollectionException;
 import com.kodigo.alltodo_api.exception.TodoCollectionException;
 import com.kodigo.alltodo_api.exception.UserCollectionException;
-import com.kodigo.alltodo_api.model.TodoDTO;
-import com.kodigo.alltodo_api.model.UserDTO;
-import com.kodigo.alltodo_api.repository.TodoRepository;
-import com.kodigo.alltodo_api.service.interfaces.TodoService;
+import com.kodigo.alltodo_api.model.dto.TodoDTO;
+import com.kodigo.alltodo_api.model.dto.UserDTO;
+import com.kodigo.alltodo_api.service.DB.implementations.mongoDB.repository.TodoRepository_MongoDB;
+import com.kodigo.alltodo_api.service.DB.interfaces.DBservices.TodoService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -25,7 +25,7 @@ import java.util.Optional;
 public class TodoServiceImpl implements TodoService {
 
     @Autowired
-    private TodoRepository todoRepo;
+    private TodoRepository_MongoDB todoRepo;
 
     @Autowired
     MongoTemplate mongoTemplate;

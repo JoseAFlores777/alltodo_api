@@ -2,17 +2,15 @@ package com.kodigo.alltodo_api.controller;
 
 import com.kodigo.alltodo_api.exception.ProjectCollectionException;
 import com.kodigo.alltodo_api.exception.UserCollectionException;
-import com.kodigo.alltodo_api.model.UserDTO;
-import com.kodigo.alltodo_api.repository.UserRepository;
-import com.kodigo.alltodo_api.service.interfaces.ProjectService;
-import com.kodigo.alltodo_api.service.interfaces.UserService;
+import com.kodigo.alltodo_api.model.dto.UserDTO;
+import com.kodigo.alltodo_api.service.DB.interfaces.DBservices.ProjectService;
+import com.kodigo.alltodo_api.service.DB.interfaces.DBservices.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
-import java.util.List;
 
 
 @RestController

@@ -1,12 +1,10 @@
-package com.kodigo.alltodo_api.model;
+package com.kodigo.alltodo_api.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
@@ -44,6 +42,8 @@ public class TodoDTO {
 
     @DocumentReference
     private UserDTO updatedBy;
+
+    private Date expirationDate;
 
     private Date createdAt;
 

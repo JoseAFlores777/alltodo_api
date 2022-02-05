@@ -1,11 +1,10 @@
-package com.kodigo.alltodo_api.service.interfaces;
+package com.kodigo.alltodo_api.service.DB.interfaces.DBservices;
 
 import com.kodigo.alltodo_api.exception.ProjectCollectionException;
 import com.kodigo.alltodo_api.exception.TodoCollectionException;
 import com.kodigo.alltodo_api.exception.UserCollectionException;
-import com.kodigo.alltodo_api.model.ProjectDTO;
-import com.kodigo.alltodo_api.model.TodoDTO;
-import com.kodigo.alltodo_api.model.UserDTO;
+import com.kodigo.alltodo_api.model.dto.ProjectDTO;
+import com.kodigo.alltodo_api.model.dto.UserDTO;
 
 import javax.validation.ConstraintViolationException;
 import java.util.List;

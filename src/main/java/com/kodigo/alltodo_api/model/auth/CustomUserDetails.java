@@ -1,5 +1,6 @@
-package com.kodigo.alltodo_api.model;
+package com.kodigo.alltodo_api.model.auth;
 
+import com.kodigo.alltodo_api.model.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

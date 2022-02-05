@@ -1,6 +1,6 @@
 package com.kodigo.alltodo_api.filters;
 
-import com.kodigo.alltodo_api.service.interfaces.UserAuthService;
+import com.kodigo.alltodo_api.service.DB.interfaces.DBservices.UserAuthService;
 import com.kodigo.alltodo_api.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

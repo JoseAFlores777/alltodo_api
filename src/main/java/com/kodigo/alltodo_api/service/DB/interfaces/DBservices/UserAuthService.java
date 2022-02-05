@@ -1,4 +1,4 @@
-package com.kodigo.alltodo_api.service.interfaces;
+package com.kodigo.alltodo_api.service.DB.interfaces.DBservices;
 
 import com.kodigo.alltodo_api.exception.UserCollectionException;
 import org.springframework.security.core.userdetails.UserDetails;

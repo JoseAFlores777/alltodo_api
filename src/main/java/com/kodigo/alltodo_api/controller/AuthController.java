@@ -1,12 +1,12 @@
 package com.kodigo.alltodo_api.controller;
 
 
-import com.kodigo.alltodo_api.model.UserDTO;
-import com.kodigo.alltodo_api.model.auth.AuthLoginReq;
-import com.kodigo.alltodo_api.model.auth.AuthRes;
-import com.kodigo.alltodo_api.model.auth.AuthSignupReq;
-import com.kodigo.alltodo_api.service.interfaces.UserAuthService;
-import com.kodigo.alltodo_api.service.interfaces.UserService;
+import com.kodigo.alltodo_api.model.dto.UserDTO;
+import com.kodigo.alltodo_api.model.auth.AuthLoginRequest;
+import com.kodigo.alltodo_api.model.auth.AuthResponse;
+import com.kodigo.alltodo_api.model.auth.AuthSignupRequest;
+import com.kodigo.alltodo_api.service.DB.interfaces.DBservices.UserAuthService;
+import com.kodigo.alltodo_api.service.DB.interfaces.DBservices.UserService;
 import com.kodigo.alltodo_api.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,19 +35,19 @@ public class AuthController {
     private JwtUtil jwtTokenUtil;
 
     @PostMapping("/auth")
-    public ResponseEntity<?> login(@RequestBody AuthLoginReq authLoginReq)  {
+    public ResponseEntity<?> login(@RequestBody AuthLoginRequest authLoginRequest)  {
 
         final UserDetails userDetails;
         final String jwt;
         final UserDTO userDTO;
         try {
-            authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(authLoginReq.getEmail(), authLoginReq.getPassword()) );
+            authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(authLoginRequest.getEmail(), authLoginRequest.getPassword()) );
 
-           userDetails = userAuthService.loadUserByUsername(authLoginReq.getEmail());
+           userDetails = userAuthService.loadUserByUsername(authLoginRequest.getEmail());
 
             jwt = jwtTokenUtil.generateToken(userDetails);
 
-            userDTO = userService.findByEmail(authLoginReq.getEmail()).get();
+            userDTO = userService.findByEmail(authLoginRequest.getEmail()).get();
 
         } catch (BadCredentialsException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -55,12 +55,12 @@ public class AuthController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
 
-        return new ResponseEntity<AuthRes>(new AuthRes(jwt,userDTO), HttpStatus.OK);
+        return new ResponseEntity<AuthResponse>(new AuthResponse(jwt,userDTO), HttpStatus.OK);
 
     }
 
     @PostMapping("/auth/signup")
-    public ResponseEntity<?> signup(@RequestBody AuthSignupReq authSignupReq)  {
+    public ResponseEntity<?> signup(@RequestBody AuthSignupRequest authSignupRequest)  {
 
         final UserDetails userDetails;
         final String jwt;
@@ -68,17 +68,17 @@ public class AuthController {
         final UserDTO userSaved;
 
         try {
-            userDTO.setFirstName(authSignupReq.getFirstName());
-            userDTO.setLastName(authSignupReq.getLastName());
-            userDTO.setGender(authSignupReq.getGender());
-            userDTO.setEmail(authSignupReq.getEmail());
-            userDTO.setPassword(authSignupReq.getPassword());
+            userDTO.setFirstName(authSignupRequest.getFirstName());
+            userDTO.setLastName(authSignupRequest.getLastName());
+            userDTO.setGender(authSignupRequest.getGender());
+            userDTO.setEmail(authSignupRequest.getEmail());
+            userDTO.setPassword(authSignupRequest.getPassword());
 
             userSaved = userService.createUser(userDTO);
 
-            authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(authSignupReq.getEmail(), authSignupReq.getPassword()) );
+            authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(authSignupRequest.getEmail(), authSignupRequest.getPassword()) );
 
-            userDetails = userAuthService.loadUserByUsername(authSignupReq.getEmail());
+            userDetails = userAuthService.loadUserByUsername(authSignupRequest.getEmail());
 
             jwt = jwtTokenUtil.generateToken(userDetails);
 
@@ -88,7 +88,7 @@ public class AuthController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
 
-        return new ResponseEntity<AuthRes>(new AuthRes(jwt,userSaved), HttpStatus.OK);
+        return new ResponseEntity<AuthResponse>(new AuthResponse(jwt,userSaved), HttpStatus.OK);
 
     }
 

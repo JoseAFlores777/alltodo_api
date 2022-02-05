@@ -1,6 +1,6 @@
 package com.kodigo.alltodo_api.util;
 
-import com.kodigo.alltodo_api.model.CustomUserDetails;
+import com.kodigo.alltodo_api.model.auth.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 
 @Service

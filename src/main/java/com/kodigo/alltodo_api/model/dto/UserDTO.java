@@ -1,4 +1,4 @@
-package com.kodigo.alltodo_api.model;
+package com.kodigo.alltodo_api.model.dto;
 
 import com.kodigo.alltodo_api.model.enums.Gender;
 import com.kodigo.alltodo_api.validators.TypeGenderConstraint;

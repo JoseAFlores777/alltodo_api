@@ -1,15 +1,12 @@
-package com.kodigo.alltodo_api.service;
+package com.kodigo.alltodo_api.service.DB.implementations.mongoDB.DBservice;
 
 import com.kodigo.alltodo_api.exception.ProjectCollectionException;
 import com.kodigo.alltodo_api.exception.TodoCollectionException;
 import com.kodigo.alltodo_api.exception.UserCollectionException;
-import com.kodigo.alltodo_api.model.ProjectDTO;
-import com.kodigo.alltodo_api.model.TodoDTO;
-import com.kodigo.alltodo_api.model.UserDTO;
-import com.kodigo.alltodo_api.repository.ProjectRepository;
-import com.kodigo.alltodo_api.service.interfaces.ProjectService;
-import com.kodigo.alltodo_api.service.interfaces.TodoService;
-import com.kodigo.alltodo_api.service.interfaces.UserService;
+import com.kodigo.alltodo_api.model.dto.ProjectDTO;
+import com.kodigo.alltodo_api.model.dto.UserDTO;
+import com.kodigo.alltodo_api.service.DB.implementations.mongoDB.repository.ProjectRepository_MongoDB;
+import com.kodigo.alltodo_api.service.DB.interfaces.DBservices.ProjectService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -30,7 +27,7 @@ import java.util.Optional;
 public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
-    private ProjectRepository projectRepo;
+    private ProjectRepository_MongoDB projectRepo;
 
 
     @Autowired

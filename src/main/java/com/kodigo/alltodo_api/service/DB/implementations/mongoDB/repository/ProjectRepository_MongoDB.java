@@ -1,9 +1,7 @@
-package com.kodigo.alltodo_api.repository;
+package com.kodigo.alltodo_api.service.DB.implementations.mongoDB.repository;
 
-import com.kodigo.alltodo_api.model.ProjectDTO;
-import com.kodigo.alltodo_api.model.TodoDTO;
+import com.kodigo.alltodo_api.model.dto.ProjectDTO;
 import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -12,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ProjectRepository extends MongoRepository <ProjectDTO, String> {
+public interface ProjectRepository_MongoDB extends MongoRepository <ProjectDTO, String> {
 
 
     @Query("{'name': ?0, 'createdBy': ?1, isAvailable: true }")
