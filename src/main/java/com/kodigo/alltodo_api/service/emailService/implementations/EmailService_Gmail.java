@@ -61,6 +61,7 @@ public class EmailService_Gmail implements EmailService {
             e.printStackTrace();
             response.setMessage("Mail Sending failure : "+e.getMessage());
             response.setStatus(Boolean.FALSE);
+            return response;
         }
 
         return response;
