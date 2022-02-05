@@ -1,6 +1,6 @@
 package com.kodigo.alltodo_api.filters;
 
-import com.kodigo.alltodo_api.service.UserAuthServiceImpl;
+import com.kodigo.alltodo_api.service.interfaces.UserAuthService;
 import com.kodigo.alltodo_api.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +20,7 @@ import java.io.IOException;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Autowired
-    private UserAuthServiceImpl userAuthServiceImpl;
+    private UserAuthService userAuthService;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -42,7 +42,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userAuthServiceImpl.loadUserByUsername(email);
+            UserDetails userDetails = this.userAuthService.loadUserByUsername(email);
             if (jwtUtil.validateToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());

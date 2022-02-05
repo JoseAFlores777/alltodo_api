@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public void createUser(UserDTO user) throws ConstraintViolationException, UserCollectionException {
+    public UserDTO createUser(UserDTO user) throws ConstraintViolationException, UserCollectionException {
        Optional<UserDTO> userOptional = userRepo.findByEmail( user.getEmail() );
 
        if (userOptional.isPresent()){
@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService {
            user.setPassword(this.passwordEncoder.encode(user.getPassword()));
            user.setCreatedAt( new Date( System.currentTimeMillis() ));
            userRepo.save( user );
+           return userRepo.findByEmail( user.getEmail() ).get() ;
        }
     }
 
@@ -86,12 +87,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean ifUserExists(String id) {
-        Optional<UserDTO> optionalUser = userRepo.findUserById(id);
-        if (!optionalUser.isPresent()) {
-            return false;
-        }else {
-           return true;
-        }
+    public Optional<UserDTO> findByEmail(String email) {
+        return userRepo.findByEmail(email);
     }
+
+
 }

@@ -29,7 +29,6 @@ public class UserAuthServiceImpl implements UserAuthService {
             throw new UsernameNotFoundException("The User doesn't exist");
         }
 
-
         return new CustomUserDetails(optionalUser.get());
         //return new User(optionalUser.get().getEmail(),optionalUser.get().getPassword(),new ArrayList<>());
     }

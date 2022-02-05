@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface UserRepository extends MongoRepository <UserDTO, String> {
 
     @Query("{'email': ?0, isAvailable: true}")
-    Optional<UserDTO> findByEmail(String title );
+    Optional<UserDTO> findByEmail(String email );
 
     @Query("{'id': ?0, isAvailable: true}")
     Optional<UserDTO> findUserById(String id );

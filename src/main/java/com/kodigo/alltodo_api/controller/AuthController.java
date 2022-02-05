@@ -1,9 +1,12 @@
 package com.kodigo.alltodo_api.controller;
 
 
-import com.kodigo.alltodo_api.model.auth.AuthReq;
+import com.kodigo.alltodo_api.model.UserDTO;
+import com.kodigo.alltodo_api.model.auth.AuthLoginReq;
 import com.kodigo.alltodo_api.model.auth.AuthRes;
-import com.kodigo.alltodo_api.service.UserAuthServiceImpl;
+import com.kodigo.alltodo_api.model.auth.AuthSignupReq;
+import com.kodigo.alltodo_api.service.interfaces.UserAuthService;
+import com.kodigo.alltodo_api.service.interfaces.UserService;
 import com.kodigo.alltodo_api.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,21 +26,59 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserAuthServiceImpl userAuthServiceImpl;
+    private UserAuthService userAuthService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private JwtUtil jwtTokenUtil;
 
     @PostMapping("/auth")
-    public ResponseEntity<?> login(@RequestBody AuthReq authReq)  {
+    public ResponseEntity<?> login(@RequestBody AuthLoginReq authLoginReq)  {
 
         final UserDetails userDetails;
         final String jwt;
+        final UserDTO userDTO;
+        try {
+            authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(authLoginReq.getEmail(), authLoginReq.getPassword()) );
+
+           userDetails = userAuthService.loadUserByUsername(authLoginReq.getEmail());
+
+            jwt = jwtTokenUtil.generateToken(userDetails);
+
+            userDTO = userService.findByEmail(authLoginReq.getEmail()).get();
+
+        } catch (BadCredentialsException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<AuthRes>(new AuthRes(jwt,userDTO), HttpStatus.OK);
+
+    }
+
+    @PostMapping("/auth/signup")
+    public ResponseEntity<?> signup(@RequestBody AuthSignupReq authSignupReq)  {
+
+        final UserDetails userDetails;
+        final String jwt;
+        final UserDTO userDTO = new UserDTO();
+        final UserDTO userSaved;
 
         try {
-            authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(authReq.getEmail(), authReq.getPassword()) );
+            userDTO.setFirstName(authSignupReq.getFirstName());
+            userDTO.setLastName(authSignupReq.getLastName());
+            userDTO.setGender(authSignupReq.getGender());
+            userDTO.setEmail(authSignupReq.getEmail());
+            userDTO.setPassword(authSignupReq.getPassword());
 
-           userDetails = userAuthServiceImpl.loadUserByUsername(authReq.getEmail());
+            userSaved = userService.createUser(userDTO);
+
+            authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(authSignupReq.getEmail(), authSignupReq.getPassword()) );
+
+            userDetails = userAuthService.loadUserByUsername(authSignupReq.getEmail());
 
             jwt = jwtTokenUtil.generateToken(userDetails);
 
@@ -47,8 +88,11 @@ public class AuthController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
 
-        return new ResponseEntity<AuthRes>(new AuthRes(jwt), HttpStatus.OK);
+        return new ResponseEntity<AuthRes>(new AuthRes(jwt,userSaved), HttpStatus.OK);
 
     }
+
+
+
 
 }

@@ -5,10 +5,11 @@ import com.kodigo.alltodo_api.exception.UserCollectionException;
 import com.kodigo.alltodo_api.model.UserDTO;
 
 import javax.validation.ConstraintViolationException;
+import java.util.Optional;
 
 public interface UserService {
 
-     void createUser(UserDTO user)  throws ConstraintViolationException, UserCollectionException;
+     UserDTO createUser(UserDTO user)  throws ConstraintViolationException, UserCollectionException;
 
      UserDTO getUserById(String id) throws UserCollectionException;
 
@@ -16,5 +17,5 @@ public interface UserService {
 
      void deleteUser(String id) throws UserCollectionException, ProjectCollectionException;
 
-     boolean ifUserExists(String id);
+     Optional<UserDTO> findByEmail(String email );
 }
