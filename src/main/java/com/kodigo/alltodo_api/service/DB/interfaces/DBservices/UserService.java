@@ -18,4 +18,6 @@ public interface UserService {
      void deleteUser(String id) throws UserCollectionException, ProjectCollectionException;
 
      Optional<UserDTO> findByEmail(String email );
+
+     void verifyUserEmail(String id) throws UserCollectionException;
 }

@@ -43,6 +43,8 @@ public class UserDTO {
     @Email(message = "invalid email format")
     private String email;
 
+    private boolean verifiedEmail = false;
+
     @NotNull( message = "The password cannot be null")
     @NotBlank( message = "The password must have at least one character")
     private String password;

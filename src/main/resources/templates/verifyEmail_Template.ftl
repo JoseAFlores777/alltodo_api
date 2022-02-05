@@ -7,7 +7,8 @@
     <meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
     <title></title> <!-- The title tag shows in email notifications, like Android 4.4. -->
 
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- CSS Reset : BEGIN -->
     <style>
@@ -111,6 +112,7 @@ img.g-img + div {
     }
 }
 
+
     </style>
 
     <!-- CSS Reset : END -->
@@ -119,13 +121,13 @@ img.g-img + div {
     <style>
 
 	    .primary{
-	background: #30e3ca;
+	background: #6c74b4;
 }
 .bg_white{
 	background: #ffffff;
 }
 .bg_light{
-	background: #fafafa;
+	background: #f7fafa;
 }
 .bg_black{
 	background: #000000;
@@ -144,7 +146,7 @@ img.g-img + div {
 }
 .btn.btn-primary{
 	border-radius: 5px;
-	background: #30e3ca;
+	background: #6c74b4;
 	color: #ffffff;
 }
 .btn.btn-white{
@@ -165,16 +167,20 @@ img.g-img + div {
 	color: #000;
 	font-weight: 700;
 }
+.btn-custom{
+	color: rgba(0,0,0,.3);
+	text-decoration: underline;
+}
 
 h1,h2,h3,h4,h5,h6{
-	font-family: 'Lato', sans-serif;
+	font-family: 'Poppins', sans-serif;
 	color: #000000;
 	margin-top: 0;
 	font-weight: 400;
 }
 
 body{
-	font-family: 'Lato', sans-serif;
+	font-family: 'Poppins', sans-serif;
 	font-weight: 400;
 	font-size: 15px;
 	line-height: 1.8;
@@ -182,7 +188,7 @@ body{
 }
 
 a{
-	color: #30e3ca;
+	color: #6c74b4;
 }
 
 table{
@@ -193,10 +199,10 @@ table{
 	margin: 0;
 }
 .logo h1 a{
-	color: #30e3ca;
+	color: #6c74b4;
 	font-size: 24px;
 	font-weight: 700;
-	font-family: 'Lato', sans-serif;
+	font-family: 'Poppins', sans-serif;
 }
 
 /*HERO*/
@@ -210,9 +216,9 @@ table{
 }
 .hero .text h2{
 	color: #000;
-	font-size: 40px;
+	font-size: 34px;
 	margin-bottom: 0;
-	font-weight: 400;
+	font-weight: 200;
 	line-height: 1.4;
 }
 .hero .text h3{
@@ -221,62 +227,22 @@ table{
 }
 .hero .text h2 span{
 	font-weight: 600;
-	color: #30e3ca;
+	color: #000;
 }
 
-
-/*HEADING SECTION*/
-.heading-section{
-}
-.heading-section h2{
-	color: #000000;
-	font-size: 28px;
-	margin-top: 0;
-	line-height: 1.4;
-	font-weight: 400;
-}
-.heading-section .subheading{
-	margin-bottom: 20px !important;
-	display: inline-block;
-	font-size: 13px;
-	text-transform: uppercase;
-	letter-spacing: 2px;
-	color: rgba(0,0,0,.4);
-	position: relative;
-}
-.heading-section .subheading::after{
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: -10px;
-	content: '';
-	width: 100%;
-	height: 2px;
-	background: #30e3ca;
+.text-author{
+	bordeR: 1px solid rgba(0,0,0,.05);
+	max-width: 50%;
 	margin: 0 auto;
+	padding: 2em;
 }
-
-.heading-section-white{
-	color: rgba(255,255,255,.8);
+.text-author img{
+	border-radius: 50%;
+	padding-bottom: 20px;
 }
-.heading-section-white h2{
-	font-family:
-	line-height: 1;
-	padding-bottom: 0;
-}
-.heading-section-white h2{
-	color: #ffffff;
-}
-.heading-section-white .subheading{
+.text-author h3{
 	margin-bottom: 0;
-	display: inline-block;
-	font-size: 13px;
-	text-transform: uppercase;
-	letter-spacing: 2px;
-	color: rgba(255,255,255,.4);
 }
-
-
 ul.social{
 	padding: 0;
 }
@@ -326,95 +292,57 @@ ul.social li{
     </div>
     <div style="max-width: 600px; margin: 0 auto;" class="email-container">
     	<!-- BEGIN BODY -->
+        <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;">
+            <tr>
+            <td valign="top" class="bg_white" style="padding: 1em 2.5em 0 2.5em;">
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <td class="logo" style="text-align: center;">
+                            <img src="https://res.cloudinary.com/dup7ughcw/image/upload/v1644045362/assets/Color-Brand_av2uaj.png" alt="" srcset="">
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            </tr><!-- end tr -->
+            <tr>
+            <td valign="middle" class="hero bg_white" style="padding: 3em 0 2em 0;">
+              <img src="https://res.cloudinary.com/dup7ughcw/image/upload/v1644054542/assets/email_n81acx.png" alt="" style="width: 300px; max-width: 600px; height: auto; margin: auto; display: block;">
+            </td>
+            </tr><!-- end tr -->
+                  <tr>
+            <td valign="middle" class="hero bg_white" style="padding: 2em 0 4em 0;">
+              <table>
+                  <tr>
+                      <td>
+                          <div class="text" style="padding: 0 2.5em; text-align: center;">
+                              <h2>Please verify your email</h2>
+                              <h3>${userName}, you have created an account with this email:
+                                  <b>${userEmail}</b>
+                              </h3>
+                              <p><a href="${checkerLink}" class="btn btn-primary">Verify my email</a></p>
+                          </div>
+                      </td>
+                  </tr>
+              </table>
+            </td>
+            </tr><!-- end tr -->
+        <!-- 1 Column Text + Button : END -->
+        </table>
       <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;">
+
       	<tr>
-          <td valign="top" class="bg_white" style="padding: 1em 2.5em 0 2.5em;">
-          	<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-          		<tr>
-          			<td class="logo" style="text-align: center;">
-			            <h1><a href="#">e-Verify</a></h1>
-			          </td>
-          		</tr>
-          	</table>
-          </td>
-	      </tr><!-- end tr -->
-	      <tr>
-          <td valign="middle" class="hero bg_white" style="padding: 3em 0 2em 0;">
-            <img src="images/email.png" alt="" style="width: 300px; max-width: 600px; height: auto; margin: auto; display: block;">
-          </td>
-	      </tr><!-- end tr -->
-				<tr>
-          <td valign="middle" class="hero bg_white" style="padding: 2em 0 4em 0;">
-            <table>
-            	<tr>
-            		<td>
-            			<div class="text" style="padding: 0 2.5em; text-align: center;">
-            				<h2>Please verify your email</h2>
-            				<h3>Amazing deals, updates, interesting news right in your inbox</h3>
-            				<p><a href="#" class="btn btn-primary">Yes! Subscribe Me</a></p>
-            			</div>
-            		</td>
-            	</tr>
-            </table>
-          </td>
-	      </tr><!-- end tr -->
-      <!-- 1 Column Text + Button : END -->
-      </table>
-      <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;">
-      	<tr>
-          <td valign="middle" class="bg_light footer email-section">
-            <table>
-            	<tr>
-                <td valign="top" width="33.333%" style="padding-top: 20px;">
-                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                    <tr>
-                      <td style="text-align: left; padding-right: 10px;">
-                      	<h3 class="heading">About</h3>
-                      	<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-                <td valign="top" width="33.333%" style="padding-top: 20px;">
-                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                    <tr>
-                      <td style="text-align: left; padding-left: 5px; padding-right: 5px;">
-                      	<h3 class="heading">Contact Info</h3>
-                      	<ul>
-					                <li><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-					                <li><span class="text">+2 392 3929 210</span></a></li>
-					              </ul>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-                <td valign="top" width="33.333%" style="padding-top: 20px;">
-                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                    <tr>
-                      <td style="text-align: left; padding-left: 10px;">
-                      	<h3 class="heading">Useful Links</h3>
-                      	<ul>
-					                <li><a href="#">${Name}</a></li>
-					                <li><a href="#">${location}</a></li>
-					                <li><a href="#">Services</a></li>
-					                <li><a href="#">Work</a></li>
-					              </ul>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-            </table>
-          </td>
+            <td class="bg_light" style="text-align: center;">
+                <h3 style="margin-top: 20px;" >About the Project</h3>
+                <p style="padding-left: 60px; padding-right: 60px;">
+                    Hi there! , we are the team 2 of the bootcamp CSF4 from <a href="https://kodigo.org">Kodigo.org</a>, here is our <a href="https://github.com/JoseAFlores777/alltodo_api">github repo</a>.
+                </p>
+            </td>
         </tr><!-- end: tr -->
-        <tr>
-          <td class="bg_light" style="text-align: center;">
-          	<p>No longer want to receive these email? You can <a href="#" style="color: rgba(0,0,0,.8);">Unsubscribe here</a></p>
-          </td>
-        </tr>
+
       </table>
 
     </div>
   </center>
+
 </body>
 </html>

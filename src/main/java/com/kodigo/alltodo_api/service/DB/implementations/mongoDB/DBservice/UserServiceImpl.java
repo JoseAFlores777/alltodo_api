@@ -92,4 +92,17 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    @Override
+    public void verifyUserEmail(String id) throws UserCollectionException {
+        Optional<UserDTO> optionalUser = userRepo.findUserById(id);
+        if (!optionalUser.isPresent()) {
+            throw new UserCollectionException( UserCollectionException.NotFoundException( id ) );
+        }else {
+            UserDTO userToVerify = optionalUser.get();
+            userToVerify.setVerifiedEmail(true);
+            userRepo.save(userToVerify);
+        }
+    }
+
+
 }
