@@ -51,7 +51,7 @@ public class EmailService_Gmail implements EmailService {
             helper.setTo(request.getTo());
             helper.setText(html, true);
             helper.setSubject(request.getSubject());
-            helper.setFrom("kodigoproject1@gmail.com","alltodo");
+            helper.setFrom(from,"alltodo");
             sender.send(message);
 
             response.setMessage("mail send to : " + request.getTo());
