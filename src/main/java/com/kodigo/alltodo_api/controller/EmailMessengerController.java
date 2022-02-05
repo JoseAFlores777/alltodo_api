@@ -74,7 +74,7 @@ public class EmailMessengerController {
 
             return new ResponseEntity<>(emailService.sendEmail(request, model, pathTemplate), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getStackTrace(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getCause()+e.getMessage()+e.getLocalizedMessage()  , HttpStatus.NOT_FOUND);
         }
 
     }
