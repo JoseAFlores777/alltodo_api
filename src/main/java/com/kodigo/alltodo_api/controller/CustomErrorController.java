@@ -20,18 +20,23 @@ public class CustomErrorController implements ErrorController {
             Integer statusCode = Integer.valueOf(status.toString());
 
             if(statusCode == HttpStatus.BAD_REQUEST.value()) {
+                System.out.println("400");
                 return "error-400";
             }
-            else if(statusCode == HttpStatus.FORBIDDEN.value()) {
+             if(statusCode == HttpStatus.FORBIDDEN.value()) {
+                 System.out.println("403");
                 return "error-403";
             }
-            else if(statusCode == HttpStatus.NOT_FOUND.value()) {
+             if(statusCode == HttpStatus.NOT_FOUND.value()) {
+                 System.out.println("404");
                 return "error-404";
             }
-            else if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+             if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+                 System.out.println("500");
                 return "error-500";
             }
-            else if(statusCode == HttpStatus.SERVICE_UNAVAILABLE.value()) {
+             if(statusCode == HttpStatus.SERVICE_UNAVAILABLE.value()) {
+                 System.out.println("503");
                 return "error-503";
             }
         }

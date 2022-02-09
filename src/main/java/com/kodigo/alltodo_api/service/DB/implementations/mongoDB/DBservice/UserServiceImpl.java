@@ -87,8 +87,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserDTO> findByEmail(String email) {
-        return userRepo.findByEmail(email);
+    public Optional<UserDTO> findByEmail(String email) throws UserCollectionException {
+        Optional<UserDTO> optionalUser = userRepo.findByEmail(email);
+        if (!optionalUser.isPresent()) {
+            throw new UserCollectionException( UserCollectionException.NotFoundException( email ) );
+        }
+        return optionalUser;
     }
 
 
@@ -102,6 +106,33 @@ public class UserServiceImpl implements UserService {
             userToVerify.setVerifiedEmail(true);
             userRepo.save(userToVerify);
         }
+    }
+
+    @Override
+    public void updateUserPassword(String id, String newPwd) throws UserCollectionException {
+        Optional<UserDTO> optionalUser = userRepo.findUserById(id);
+        if (!optionalUser.isPresent()) {
+            throw new UserCollectionException( UserCollectionException.NotFoundException( id ) );
+        }else {
+            UserDTO userToUpdate = optionalUser.get();
+            userToUpdate.setPassword(this.passwordEncoder.encode(newPwd));
+            userToUpdate.setUpdatedAt( new Date( System.currentTimeMillis() ) );
+            userRepo.save( userToUpdate );
+        }
+    }
+
+    @Override
+    public UserDTO isEmailVerified(String email) throws UserCollectionException {
+        Optional<UserDTO> optionalUser = userRepo.findByEmail(email);
+        if (!optionalUser.isPresent()) {
+            throw new UserCollectionException( UserCollectionException.NotFoundException( email ) );
+        }
+
+        if (!optionalUser.get().isVerifiedEmail()){
+            throw new UserCollectionException( UserCollectionException.EmailNotVerified(email) );
+        }
+
+        return optionalUser.get();
     }
 
 

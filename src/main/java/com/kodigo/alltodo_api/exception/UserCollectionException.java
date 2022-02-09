@@ -15,4 +15,7 @@ public class UserCollectionException extends Exception {
     public static  String UserAlreadyExist(){
         return "User with given email already exists";
     }
+    public static  String EmailNotVerified(String email){
+        return "The email "+email+" is not verified";
+    }
 }

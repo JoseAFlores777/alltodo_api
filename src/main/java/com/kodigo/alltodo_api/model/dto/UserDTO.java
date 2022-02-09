@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
 
@@ -22,7 +23,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "users")
-public class UserDTO {
+public class UserDTO  {
 
     @Id
     private String id;
@@ -43,7 +44,7 @@ public class UserDTO {
     @Email(message = "invalid email format")
     private String email;
 
-    private boolean verifiedEmail = false;
+    private boolean verifiedEmail=false ;
 
     @NotNull( message = "The password cannot be null")
     @NotBlank( message = "The password must have at least one character")
