@@ -39,7 +39,7 @@ public class AuthController {
 
     //@PostMapping("/auth")
     //@RequestMapping( value = "/auth" ,method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin(origins = "http://localhost:4200")
+    //@CrossOrigin(origins = "http://localhost:4200")
     @PostMapping(value = "/auth",  produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> login(@ModelAttribute AuthLoginRequest authLoginRequest)  {
         System.out.println(authLoginRequest.getEmail());
