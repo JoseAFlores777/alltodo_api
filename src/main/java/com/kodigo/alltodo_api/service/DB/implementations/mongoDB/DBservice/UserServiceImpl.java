@@ -6,6 +6,7 @@ import com.kodigo.alltodo_api.model.dto.UserDTO;
 import com.kodigo.alltodo_api.service.DB.implementations.mongoDB.repository.UserRepository_MongoDB;
 
 import com.kodigo.alltodo_api.service.DB.interfaces.DBservices.UserService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -61,11 +62,12 @@ public class UserServiceImpl implements UserService {
                 throw new UserCollectionException( UserCollectionException.UserAlreadyExist() );
             }
             UserDTO userToUpdate = userWithId.get();
-            userToUpdate.setFirstName(user.getFirstName());
-            userToUpdate.setLastName(user.getLastName());
-            userToUpdate.setGender(user.getGender());
-            userToUpdate.setAvatarImg(user.getAvatarImg());
-            userToUpdate.setEmail(user.getEmail());
+
+            if (user.getFirstName() != null)  userToUpdate.setFirstName(user.getFirstName());
+            if (user.getLastName() != null)  userToUpdate.setLastName(user.getLastName());
+            if (user.getGender() != null)  userToUpdate.setGender(user.getGender());
+            if (user.getEmail() != null)  userToUpdate.setEmail(user.getEmail());
+
             userToUpdate.setUpdatedAt( new Date( System.currentTimeMillis() ) );
             userRepo.save( userToUpdate );
         }else{
@@ -89,6 +91,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<UserDTO> findByEmail(String email) throws UserCollectionException {
         Optional<UserDTO> optionalUser = userRepo.findByEmail(email);
+        if (!optionalUser.isPresent()) {
+            throw new UserCollectionException( UserCollectionException.NotFoundException( email ) );
+        }
+        return optionalUser;
+    }
+
+    @Override
+    public Optional<UserDTO> findByEmailWithException(String email, String userIdException) throws UserCollectionException {
+        //ObjectId userIdException_tmp = new ObjectId(userIdException);
+
+        Optional<UserDTO> optionalUser = userRepo.findByEmailWithException(email,new ObjectId(userIdException));
         if (!optionalUser.isPresent()) {
             throw new UserCollectionException( UserCollectionException.NotFoundException( email ) );
         }

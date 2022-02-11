@@ -306,7 +306,7 @@ ul.social li{
             </tr><!-- end tr -->
             <tr>
             <td valign="middle" class="hero bg_white" style="padding: 3em 0 2em 0;">
-              <img src="https://res.cloudinary.com/dup7ughcw/image/upload/v1644054542/assets/email_n81acx.png" alt="" style="width: 300px; max-width: 600px; height: auto; margin: auto; display: block;">
+              <img src="https://res.cloudinary.com/dup7ughcw/image/upload/v1644054542/assets/email_n81acx.png" alt="" style="width: 140px; max-width: 600px; height: auto; margin: auto; display: block;">
             </td>
             </tr><!-- end tr -->
                   <tr>
@@ -317,7 +317,8 @@ ul.social li{
                           <div class="text" style="padding: 0 2.5em; text-align: center;">
                               <h2>Please verify your email</h2>
                               <h3>${userName}, you have created an account with this email:
-                                  <b>${userEmail}</b>
+                                  <br>
+                                  <b style="font-size: 20px;">${userEmail}</b>
                               </h3>
                               <p><a href="${checkerLink}" class="btn btn-primary">Verify my email</a></p>
                           </div>

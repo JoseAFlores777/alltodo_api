@@ -19,6 +19,8 @@ public interface UserService {
 
      Optional<UserDTO> findByEmail(String email ) throws UserCollectionException;
 
+     Optional<UserDTO> findByEmailWithException(String email, String userIdException) throws UserCollectionException;
+
      void verifyUserEmail(String id) throws UserCollectionException;
 
      void updateUserPassword(String id, String newPwd) throws UserCollectionException;

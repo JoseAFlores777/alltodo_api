@@ -1,6 +1,5 @@
 package com.kodigo.alltodo_api.controller;
 
-import com.kodigo.alltodo_api.exception.ProjectCollectionException;
 import com.kodigo.alltodo_api.exception.UserCollectionException;
 import com.kodigo.alltodo_api.helpers.DateFormatter;
 import com.kodigo.alltodo_api.model.auth.CustomUserDetails;
@@ -106,14 +105,14 @@ public class EmailMessengerController {
         }
     }
 
-    @GetMapping("/auth/forgot-password/{id}")
-    public ResponseEntity<?> forgotPassword (@PathVariable("id") String id){
+    @GetMapping("/auth/forgot-password/{email}")
+    public ResponseEntity<?> forgotPassword (@PathVariable("email") String email){
         try {
             Map<String,Object> model = new HashMap<>();
             String pathTemplate = "forgotPassword_Template.ftl";
             MailRequest request = new MailRequest();
 
-            UserDTO userDTO = userService.getUserById(id);
+            UserDTO userDTO = userService.findByEmail(email).get();
 
             CustomUserDetails customUserDetails = new CustomUserDetails(userDTO);
 
@@ -133,7 +132,7 @@ public class EmailMessengerController {
 
     }
 
-    @GetMapping("/auth/reset-password/{token}")
+ /*   @GetMapping("/auth/reset-password/{token}")
     public String resetPasswordForm(@PathVariable("token") String token, Model model){
         try {
 
@@ -153,9 +152,9 @@ public class EmailMessengerController {
         }catch (Exception e){
                 e.getStackTrace();
         }
-            return "resetPassword.html";
+            return "resetPassword";
         // TODO: 7/2/22  
-    }
+    }*/
 
 
     @GetMapping("/auth/update-password/{id}")

@@ -14,13 +14,13 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Value("${CLIENT_PATH}")
     private String CLIENT_PATH;
-/*
-    @Override
+
+/*    @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**")
                 .addResourceLocations("/resources/");
-    }
-*/
+    }*/
+
 @Override
 public void addCorsMappings(CorsRegistry corsRegistry) {
     corsRegistry.addMapping("/**")

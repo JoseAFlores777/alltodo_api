@@ -3,9 +3,11 @@ package com.kodigo.alltodo_api.controller;
 import com.kodigo.alltodo_api.exception.ProjectCollectionException;
 import com.kodigo.alltodo_api.exception.UserCollectionException;
 import com.kodigo.alltodo_api.model.dto.UserDTO;
+import com.kodigo.alltodo_api.model.httpResponse.CommonResponse;
 import com.kodigo.alltodo_api.service.DB.interfaces.DBservices.ProjectService;
 import com.kodigo.alltodo_api.service.DB.interfaces.DBservices.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,11 +48,14 @@ public class UserController {
         }
     }
 
+
     @PutMapping("/users/{id}")
     public ResponseEntity<?> updateById( @PathVariable("id") String id, @RequestBody UserDTO user ){
         try {
+
             userService.updateUser( id, user );
-            return new ResponseEntity<>("Update User with id "+id, HttpStatus.OK);
+
+            return new ResponseEntity<>(new CommonResponse("true","Update User with id "+id), HttpStatus.OK);
         } catch (ConstraintViolationException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
         } catch (UserCollectionException e) {

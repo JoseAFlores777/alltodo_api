@@ -37,11 +37,11 @@ public class AuthController {
     @Autowired
     private JwtUtil jwtTokenUtil;
 
-    //@PostMapping("/auth")
+    @PostMapping("/auth")
     //@RequestMapping( value = "/auth" ,method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     //@CrossOrigin(origins = "http://localhost:4200")
-    @PostMapping(value = "/auth",  produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> login(@ModelAttribute AuthLoginRequest authLoginRequest)  {
+    //@PostMapping(value = "/auth",  produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> login(@RequestBody AuthLoginRequest authLoginRequest)  {
         System.out.println(authLoginRequest.getEmail());
         final UserDetails userDetails;
         final String jwt;
@@ -101,13 +101,26 @@ public class AuthController {
     }
 
     @GetMapping("auth/users/find/{email}")
-    public ResponseEntity<?> isEmailExists( @PathVariable("email") String email ){
+    public ResponseEntity<?> isEmailExists( @PathVariable("email") String email){
         try {
-            userService.findByEmail (email);
+                userService.findByEmail (email);
 
             return new ResponseEntity<>(true, HttpStatus.OK );
         }catch (UserCollectionException e ){
-            return new ResponseEntity<>( false, HttpStatus.NOT_FOUND );
+            return new ResponseEntity<>( false, HttpStatus.OK );
+        }
+    }
+
+
+    @GetMapping("auth/users/find/{email}/{userIdException}")
+    public ResponseEntity<?> isEmailExistsWithException( @PathVariable("email") String email,  @PathVariable("userIdException") String userIdException ){
+        try {
+
+                userService.findByEmailWithException(email, userIdException);
+
+            return new ResponseEntity<>(true, HttpStatus.OK );
+        }catch (UserCollectionException e ){
+            return new ResponseEntity<>( false, HttpStatus.OK );
         }
     }
 

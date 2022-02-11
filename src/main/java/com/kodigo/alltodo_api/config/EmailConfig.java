@@ -13,7 +13,6 @@ public class EmailConfig {
     public FreeMarkerConfigurationFactoryBean factoryBean(){
         FreeMarkerConfigurationFactoryBean bean = new FreeMarkerConfigurationFactoryBean();
         bean.setTemplateLoaderPath("classpath:/templates");
-
         return bean;
     }
 

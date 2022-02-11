@@ -37,7 +37,7 @@ public class UserDTO  {
     private String lastName;
 
     @TypeGenderConstraint(message = "The Gender must be Female or Male")
-    @NotNull( message = "The gender cannot be null")
+    //@NotNull( message = "The gender cannot be null")
     private String gender;
 
     @NotNull( message = "The email cannot be null")
