@@ -81,6 +81,7 @@ public class ProjectServiceImpl implements ProjectService {
             ProjectDTO projectToUpdate = projectWithId.get();
             projectToUpdate.setName(project.getName());
             projectToUpdate.setDescription(project.getDescription());
+            projectToUpdate.setColor(project.getColor());
             projectToUpdate.setUpdatedBy(Client);
             projectToUpdate.setUpdatedAt( new Date( System.currentTimeMillis() ) );
             projectRepo.save( projectToUpdate );

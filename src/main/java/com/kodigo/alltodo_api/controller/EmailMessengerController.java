@@ -49,6 +49,7 @@ public class EmailMessengerController {
         model.put("todoTitle", todo.getTitle());
         model.put("todoDate", dateFormatter.Formatter( todo.getExpirationDate(),"MMM d, E" )  );
         String projectName = (todo.getProject() != null) ? todo.getProject().getName() : "None";
+        String projectColor = (todo.getProject() != null) ? todo.getProject().getColor() : "#b0b0b0";
         model.put("projectName", projectName);
         model.put("MAIN_PATH",MAIN_PATH);
         return emailService.sendEmail(request, model, pathTemplate);

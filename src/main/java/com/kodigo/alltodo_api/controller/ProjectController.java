@@ -5,6 +5,7 @@ import com.kodigo.alltodo_api.exception.TodoCollectionException;
 import com.kodigo.alltodo_api.exception.UserCollectionException;
 import com.kodigo.alltodo_api.model.dto.ProjectDTO;
 import com.kodigo.alltodo_api.model.dto.UserDTO;
+import com.kodigo.alltodo_api.model.httpResponse.CommonResponse;
 import com.kodigo.alltodo_api.service.DB.interfaces.DBservices.ProjectService;
 import com.kodigo.alltodo_api.service.DB.interfaces.DBservices.TodoService;
 import com.kodigo.alltodo_api.service.DB.interfaces.DBservices.UserService;
@@ -32,8 +33,13 @@ public class ProjectController {
 
     @GetMapping("/projects")
     public ResponseEntity<?> getAll(@RequestAttribute("uid") String id){
-        List<ProjectDTO> projects = projectService.getAllProjects(id);
-        return new ResponseEntity<>( projects, projects.size() > 0 ? HttpStatus.OK : HttpStatus.NOT_FOUND );
+        try {
+            List<ProjectDTO> projects = projectService.getAllProjects(id);
+            return new ResponseEntity<>( projects, HttpStatus.OK );
+
+        }catch (Exception e){
+            return new ResponseEntity<>( e.getMessage(), HttpStatus.OK );
+        }
     }
 
     @PostMapping("/projects")
@@ -66,7 +72,7 @@ public class ProjectController {
         try {
             UserDTO optionalUserDTO = userService.getUserById(uid);
             projectService.updateProject( id, project, optionalUserDTO );
-            return new ResponseEntity<>("Update Todo with id "+id, HttpStatus.OK);
+            return new ResponseEntity<>(new CommonResponse("200","Update Todo with id "+id), HttpStatus.OK);
         } catch (ConstraintViolationException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
         } catch (ProjectCollectionException e) {
@@ -81,7 +87,7 @@ public class ProjectController {
         try {
             projectService.deleteProject(id,uid);
             todoService.deleteAllByProject(id);
-            return new ResponseEntity<>("Successfully deleted with id "+id, HttpStatus.OK );
+            return new ResponseEntity<>(new CommonResponse("200","Successfully deleted"), HttpStatus.OK );
         }catch (ProjectCollectionException | TodoCollectionException e ){
             return new ResponseEntity<>( e.getMessage(), HttpStatus.NOT_FOUND );
         }

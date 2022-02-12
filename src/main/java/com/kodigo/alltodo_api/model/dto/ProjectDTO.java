@@ -30,6 +30,8 @@ public class ProjectDTO {
     @NotBlank( message = "The Todo must have at least one character in the description")
     private String description;
 
+    private String color = "#6c6eb3";
+
     @DocumentReference
     private UserDTO createdBy;
 
