@@ -5,6 +5,7 @@ import com.kodigo.alltodo_api.exception.TodoCollectionException;
 import com.kodigo.alltodo_api.exception.UserCollectionException;
 import com.kodigo.alltodo_api.model.dto.TodoDTO;
 import com.kodigo.alltodo_api.model.dto.UserDTO;
+import com.kodigo.alltodo_api.model.httpResponse.CommonResponse;
 import com.kodigo.alltodo_api.model.mail.MailRequest;
 import com.kodigo.alltodo_api.service.DB.interfaces.DBservices.ProjectService;
 import com.kodigo.alltodo_api.service.DB.interfaces.DBservices.TodoService;
@@ -34,7 +35,7 @@ public class TodoController {
     @GetMapping("/todos")
     public ResponseEntity<?> getAll(@RequestAttribute("uid") String id) throws UserCollectionException {
         List<TodoDTO> todos = todoService.getAllTodos(id);
-        return new ResponseEntity<>( todos, todos.size() > 0 ? HttpStatus.OK : HttpStatus.NOT_FOUND );
+        return new ResponseEntity<>( todos, HttpStatus.OK );
     }
 
     @PostMapping("/todos")
@@ -64,7 +65,7 @@ public class TodoController {
     }
 
     @GetMapping("/todos/{id}")
-    public ResponseEntity<?> getById( @PathVariable("id") String id, @PathVariable("id") String uid ){
+    public ResponseEntity<?> getById( @PathVariable("id") String id, @RequestAttribute("uid") String uid ){
         try {
             return new ResponseEntity<>(todoService.getTodoById(id, uid), HttpStatus.OK);
         } catch (TodoCollectionException e) {
@@ -73,12 +74,29 @@ public class TodoController {
     }
 
     @PutMapping("/todos/{id}")
-    public ResponseEntity<?> updateById( @PathVariable("id") String id, @RequestBody TodoDTO todo, @PathVariable("id") String uid  ){
+    public ResponseEntity<?> updateById( @PathVariable("id") String id, @RequestBody TodoDTO todo, @RequestAttribute("uid") String uid  ){
         try {
             UserDTO optionalUserDTO = userService.getUserById(uid);
-            projectService.getProjectById(todo.getProject().getId(), uid);
+            if (todo.getProject() != null){
+
+                projectService.getProjectById(todo.getProject().getId(), uid);
+            }
             todoService.updateTodo( id, todo, optionalUserDTO );
-            return new ResponseEntity<>("Update Todo with id "+id, HttpStatus.OK);
+            return new ResponseEntity<>(new CommonResponse("200","Update Todo with id "+id), HttpStatus.OK);
+        } catch (ConstraintViolationException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+        } catch (TodoCollectionException | UserCollectionException | ProjectCollectionException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/status/todo/{id}")
+    public ResponseEntity<?> updateStatusById( @PathVariable("id") String id, @RequestBody TodoDTO todo, @RequestAttribute("uid") String uid  ){
+        try {
+            UserDTO optionalUserDTO = userService.getUserById(uid);
+
+            todoService.updateTodoStatus( id, todo, optionalUserDTO );
+            return new ResponseEntity<>(new CommonResponse("200","Update Todo with id "+id), HttpStatus.OK);
         } catch (ConstraintViolationException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
         } catch (TodoCollectionException | UserCollectionException | ProjectCollectionException e) {
@@ -87,10 +105,10 @@ public class TodoController {
     }
 
     @DeleteMapping("/todos/{id}")
-    public ResponseEntity<?> deleteById( @PathVariable("id") String id, @PathVariable("id") String uid ){
+    public ResponseEntity<?> deleteById( @PathVariable("id") String id, @RequestAttribute("uid") String uid ){
         try {
             todoService.deleteTodo(id, uid);
-            return new ResponseEntity<>("Successfully deleted with id "+id, HttpStatus.OK );
+            return new ResponseEntity<>(new CommonResponse("200","Successfully deleted with id "+id), HttpStatus.OK );
         }catch ( TodoCollectionException e ){
             return new ResponseEntity<>( e.getMessage(), HttpStatus.NOT_FOUND );
         }

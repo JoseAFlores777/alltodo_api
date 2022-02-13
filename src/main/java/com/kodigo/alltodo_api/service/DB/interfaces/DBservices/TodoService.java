@@ -19,6 +19,8 @@ public interface TodoService {
 
      void updateTodo(String id, TodoDTO todo, UserDTO idClient) throws TodoCollectionException, UserCollectionException, ProjectCollectionException;
 
+     void updateTodoStatus(String id, TodoDTO todo, UserDTO idClient) throws TodoCollectionException, UserCollectionException, ProjectCollectionException;
+
      void deleteTodo(String id, String idClient) throws TodoCollectionException;
 
      void deleteAllByProject(String idProject) throws TodoCollectionException;

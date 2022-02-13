@@ -15,6 +15,9 @@ public interface TodoRepository_MongoDB extends MongoRepository <TodoDTO, String
     @Query("{'title': ?0}")
     Optional<TodoDTO> findByTitle(String title );
 
+    @Query("{'id': ?0}")
+    Optional<TodoDTO> findByID_custom(ObjectId id );
+
     @Query("{'title': ?0, 'createdBy': ?1, 'project': ?2 }")
     Optional<TodoDTO> findDuplicated(String title, ObjectId createdBy, ObjectId idProject );
 
@@ -22,7 +25,7 @@ public interface TodoRepository_MongoDB extends MongoRepository <TodoDTO, String
     List<TodoDTO> findAllUserTodos(ObjectId createdBy);
 
     @Query("{'id': ?0, 'createdBy': ?1, isAvailable: true }")
-    Optional<TodoDTO> findUserTodosById(String id, ObjectId createdBy);
+    Optional<TodoDTO> findUserTodosById(ObjectId id, ObjectId createdBy);
 
     @Query("{'project': ?0 }")
     void deleteAllByProject( ObjectId idProject );

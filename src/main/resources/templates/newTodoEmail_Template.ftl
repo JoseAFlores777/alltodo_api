@@ -319,7 +319,7 @@ ul.social li{
 			          	<div class="text-author">
 				          	<h3 class="name">${todoTitle}</h3>
 				          	<span class="position"><i class="fas fa-calendar-check"></i> ${todoDate}</span> <br>
-                            <span class="position"><i class="fas fa-circle" style="color: ${projectColor} ;"></i> ${projectName}</span>
+                            <span class="position"><i class="fas fa-circle" style="'color:'+ ${projectColor} +';'"></i> ${projectName}</span>
 				           	<p><a href="${MAIN_PATH}" class="btn btn-primary">Go to the app</a></p>
 			           	</div>
 			          </td>

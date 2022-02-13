@@ -51,6 +51,7 @@ public class EmailMessengerController {
         String projectName = (todo.getProject() != null) ? todo.getProject().getName() : "None";
         String projectColor = (todo.getProject() != null) ? todo.getProject().getColor() : "#b0b0b0";
         model.put("projectName", projectName);
+        model.put("projectColor", projectColor);
         model.put("MAIN_PATH",MAIN_PATH);
         return emailService.sendEmail(request, model, pathTemplate);
     }

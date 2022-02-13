@@ -9,6 +9,7 @@ import com.kodigo.alltodo_api.service.DB.implementations.mongoDB.repository.Todo
 import com.kodigo.alltodo_api.service.DB.interfaces.DBservices.TodoService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -58,7 +59,7 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public TodoDTO getTodoById(String id, String idClient) throws TodoCollectionException {
-        Optional<TodoDTO> optionalTodo = todoRepo.findUserTodosById( id, new ObjectId(idClient) );
+        Optional<TodoDTO> optionalTodo = todoRepo.findUserTodosById( new ObjectId(id), new ObjectId(idClient) );
         if (!optionalTodo.isPresent()) {
             throw new TodoCollectionException( TodoCollectionException.NotFoundException( id ) );
         }else {
@@ -68,19 +69,41 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public void updateTodo(String id, TodoDTO todo, UserDTO Client) throws TodoCollectionException, UserCollectionException, ProjectCollectionException {
+    public void updateTodo( String id, TodoDTO todo, UserDTO Client) throws TodoCollectionException, UserCollectionException, ProjectCollectionException {
 
-        Optional<TodoDTO> todoWithId = todoRepo.findById(id);
-        Optional<TodoDTO> todoWithSameTitle = todoRepo.findDuplicated( todo.getTitle(), new ObjectId(Client.getId()), new ObjectId(todo.getProject().getId()) );
+        Optional<TodoDTO> todoWithId = todoRepo.findByID_custom(new ObjectId(id));
+
+
         if (todoWithId.isPresent()) {
-            if (todoWithSameTitle.isPresent() && !todoWithSameTitle.get().getId().equals( id ) ) {
-                throw new TodoCollectionException( TodoCollectionException.TodoAlreadyExist() );
-            }
+
             TodoDTO todoToUpdate = todoWithId.get();
             todoToUpdate.setTitle(todo.getTitle());
             todoToUpdate.setDescription(todo.getDescription());
+            //todoToUpdate.setCompleted(todo.getCompleted());
+            if (todo.getProject() != null){
+                todoToUpdate.setProject(todo.getProject());
+            }
+            todoToUpdate.setUpdatedBy(Client);
+            todoToUpdate.setUpdatedAt( new Date( System.currentTimeMillis() ) );
+            todoRepo.save( todoToUpdate );
+        }else{
+            throw new TodoCollectionException( TodoCollectionException.NotFoundException( id ) );
+        }
+    }
+
+
+    @Override
+    public void updateTodoStatus( String id, TodoDTO todo, UserDTO Client) throws TodoCollectionException, UserCollectionException, ProjectCollectionException {
+
+        Optional<TodoDTO> todoWithId = todoRepo.findByID_custom(new ObjectId(id));
+
+        if (todoWithId.isPresent()) {
+
+            TodoDTO todoToUpdate = todoWithId.get();
             todoToUpdate.setCompleted(todo.getCompleted());
-            todoToUpdate.setProject(todo.getProject());
+            if (todo.getProject() != null){
+                todoToUpdate.setProject(todo.getProject());
+            }
             todoToUpdate.setUpdatedBy(Client);
             todoToUpdate.setUpdatedAt( new Date( System.currentTimeMillis() ) );
             todoRepo.save( todoToUpdate );
@@ -91,8 +114,9 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public void deleteTodo(String id, String idClient) throws TodoCollectionException {
-        Optional<TodoDTO> optionalTodo = todoRepo.findUserTodosById(id, new ObjectId(idClient));
+        Optional<TodoDTO> optionalTodo = todoRepo.findUserTodosById(new ObjectId(id), new ObjectId(idClient));
         if (!optionalTodo.isPresent()) {
+
             throw new TodoCollectionException( TodoCollectionException.NotFoundException( id ) );
         }else {
             TodoDTO todo_ToDelete = optionalTodo.get();
