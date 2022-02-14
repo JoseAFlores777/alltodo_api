@@ -79,6 +79,7 @@ public class TodoServiceImpl implements TodoService {
             TodoDTO todoToUpdate = todoWithId.get();
             todoToUpdate.setTitle(todo.getTitle());
             todoToUpdate.setDescription(todo.getDescription());
+            todoToUpdate.setExpirationDate(todo.getExpirationDate());
             //todoToUpdate.setCompleted(todo.getCompleted());
             if (todo.getProject() != null){
                 todoToUpdate.setProject(todo.getProject());
