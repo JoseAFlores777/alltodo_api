@@ -10,12 +10,14 @@ import com.kodigo.alltodo_api.model.mail.MailRequest;
 import com.kodigo.alltodo_api.service.DB.interfaces.DBservices.ProjectService;
 import com.kodigo.alltodo_api.service.DB.interfaces.DBservices.TodoService;
 import com.kodigo.alltodo_api.service.DB.interfaces.DBservices.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -61,6 +63,8 @@ public class TodoController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         } catch (UserCollectionException | ProjectCollectionException  e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

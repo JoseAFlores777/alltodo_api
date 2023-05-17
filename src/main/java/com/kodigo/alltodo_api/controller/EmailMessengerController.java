@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ import java.util.Map;
 public class EmailMessengerController {
 
     @Autowired
-    private EmailService emailService;
+    public EmailService emailService;
     @Autowired
     private UserService userService;
     @Autowired
@@ -41,7 +42,7 @@ public class EmailMessengerController {
     @Value("${MAIN_PATH}")
     private String MAIN_PATH;
 
-    public MailResponse newTodoEmail(MailRequest request){
+    public MailResponse newTodoEmail(MailRequest request) throws IOException {
         String pathTemplate = "newTodoEmail_Template.ftl";
         TodoDTO todo = (TodoDTO) request.getEntity();
         Map<String,Object> model = new HashMap<>();
@@ -80,6 +81,8 @@ public class EmailMessengerController {
             return new ResponseEntity<>(emailService.sendEmail(request, model, pathTemplate), HttpStatus.OK);
         } catch (UserCollectionException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
     }
@@ -130,6 +133,8 @@ public class EmailMessengerController {
             return new ResponseEntity<>(emailService.sendEmail(request, model, pathTemplate), HttpStatus.OK);
         } catch (UserCollectionException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
     }

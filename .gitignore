@@ -19,6 +19,10 @@ target/
 *.iml
 *.ipr
 
+mongo
+
+/src/main/resources/secrets.properties
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
