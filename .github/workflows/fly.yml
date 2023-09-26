@@ -12,8 +12,6 @@ jobs:
     name: Deploy app
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
 
       - name: create secrets file
         run: |
@@ -32,6 +30,9 @@ jobs:
           echo "secrets.mail_password =${{ secrets.SECRET_MAIL_PASSWORD }}" >> src/main/resources/secrets.properties
           echo "secrets.mainPath =${{ secrets.MAIN_PATH }}" >> src/main/resources/secrets.properties
           echo "secrets.clientPath =${{ secrets.CLIENT_PATH }}" >> src/main/resources/secrets.properties
+          
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
       - name: Set up Flyctl
         uses: superfly/flyctl-actions/setup-flyctl@master
