@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: Set up Environment Variables
         run: |
+          touch secrets.properties
           echo "# Secrets Properties" > src/main/resources/secrets.properties
           echo "" >> src/main/resources/secrets.properties
           echo "# Database Configuration" >> src/main/resources/secrets.properties
