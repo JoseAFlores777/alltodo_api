@@ -1,0 +1,19 @@
+version: '3'
+services:
+  apiDb:
+    image: mongo:5
+    container_name: apiDB
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo:/data/db
+  alltodo-api:
+    image: alltodo-api:latest
+    container_name: alltodo-api
+    ports:
+      - 9090:8080
+    depends_on:
+      - apiDb
+    links:
+      - apiDb
