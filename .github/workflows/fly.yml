@@ -15,26 +15,23 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: create secrets file
-        run: |
-          cd src/main/resources
-          touch secrets.properties
-      - name: Set up Environment Variables
-        run: |
-          echo "# Secrets Properties" > src/main/resources/secrets.properties
-          echo "" >> src/main/resources/secrets.properties
-          echo "# Database Configuration" >> src/main/resources/secrets.properties
-          echo "secrets.mongodb_uri =${{ secrets.SECRET_MONGODB_URI }}" >> src/main/resources/secrets.properties
-          echo "" >> src/main/resources/secrets.properties
-          echo "# SMTP Configuration" >> src/main/resources/secrets.properties
-          echo "secrets.mail_username =${{ secrets.SECRET_MAIL_USERNAME }}" >> src/main/resources/secrets.properties
-          echo "secrets.sendgrid_api_key =${{ secrets.SECRET_SENDGRID_API_KEY }}" >> src/main/resources/secrets.properties
-          echo "secrets.mail_password =${{ secrets.SECRET_MAIL_PASSWORD }}" >> src/main/resources/secrets.properties
-          echo "secrets.mainPath =${{ secrets.MAIN_PATH }}" >> src/main/resources/secrets.properties
-          echo "secrets.clientPath =${{ secrets.CLIENT_PATH }}" >> src/main/resources/secrets.properties
-
-      - name: Checkout Code
-        uses: actions/checkout@v3
+#      - name: create secrets file
+#        run: |
+#          cd src/main/resources
+#          touch secrets.properties
+#      - name: Set up Environment Variables
+#        run: |
+#          echo "# Secrets Properties" > src/main/resources/secrets.properties
+#          echo "" >> src/main/resources/secrets.properties
+#          echo "# Database Configuration" >> src/main/resources/secrets.properties
+#          echo "secrets.mongodb_uri =${{ secrets.SECRET_MONGODB_URI }}" >> src/main/resources/secrets.properties
+#          echo "" >> src/main/resources/secrets.properties
+#          echo "# SMTP Configuration" >> src/main/resources/secrets.properties
+#          echo "secrets.mail_username =${{ secrets.SECRET_MAIL_USERNAME }}" >> src/main/resources/secrets.properties
+#          echo "secrets.sendgrid_api_key =${{ secrets.SECRET_SENDGRID_API_KEY }}" >> src/main/resources/secrets.properties
+#          echo "secrets.mail_password =${{ secrets.SECRET_MAIL_PASSWORD }}" >> src/main/resources/secrets.properties
+#          echo "secrets.mainPath =${{ secrets.MAIN_PATH }}" >> src/main/resources/secrets.properties
+#          echo "secrets.clientPath =${{ secrets.CLIENT_PATH }}" >> src/main/resources/secrets.properties
 
       - name: Set up Flyctl
         uses: superfly/flyctl-actions/setup-flyctl@master
